@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn web development with Veltrix IDE tutorials. Free video lessons covering HTML, CSS, JavaScript and more.">
+    <meta name="keywords" content="web development tutorials, learn coding, html css javascript, veltrix ide lessons">
+    <meta name="author" content="Mohammad Khan">
+    
+    <meta property="og:title" content="Tutorials - Veltrix IDE">
+    <meta property="og:description" content="Learn web development with comprehensive video tutorials on Veltrix IDE.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://veltrixide.com/tutorials.html">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tutorials - Veltrix IDE">
+    <meta name="twitter:description" content="Learn web development with comprehensive video tutorials.">
+    
+    <title>Tutorials - Veltrix IDE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e40af">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 5L35 15V25L20 35L5 25V15L20 5Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M20 15L28 20L20 25L12 20L20 15Z" fill="currentColor"/>
+                </svg>
+                <span class="brand-name">Veltrix IDE</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tutorials.html" class="nav-link active">Tutorials</a>
+                <a href="lab.html" class="nav-link">Lab</a>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <div class="auth-section" id="authSection">
+                    <button class="btn-login" id="loginBtn">Login</button>
+                    <button class="btn-signup" id="signupBtn">Sign Up</button>
+                </div>
+                <div class="user-section hidden" id="userSection">
+                    <span class="username-display" id="usernameDisplay"></span>
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <button class="btn-logout" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="tutorials-page">
+        <section class="page-header">
+            <div class="container">
+                <h1>Video Tutorials</h1>
+                <p class="lead">Master web development with our comprehensive lesson series</p>
+            </div>
+        </section>
+
+        <section class="tutorials-content">
+            <div class="container">
+                <div class="tutorials-grid">
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 1: Introduction to HTML</h3>
+                            <p class="tutorial-duration">12:45</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 2: HTML Elements and Tags</h3>
+                            <p class="tutorial-duration">15:30</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 3: HTML Forms and Inputs</h3>
+                            <p class="tutorial-duration">18:20</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 4: Semantic HTML</h3>
+                            <p class="tutorial-duration">14:15</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 5: Introduction to CSS</h3>
+                            <p class="tutorial-duration">16:40</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 6: CSS Selectors</h3>
+                            <p class="tutorial-duration">13:55</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 7: CSS Box Model</h3>
+                            <p class="tutorial-duration">17:25</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 8: CSS Flexbox Basics</h3>
+                            <p class="tutorial-duration">20:10</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 9: CSS Flexbox Advanced</h3>
+                            <p class="tutorial-duration">19:35</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 10: CSS Grid Layout</h3>
+                            <p class="tutorial-duration">22:50</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 11: Responsive Design</h3>
+                            <p class="tutorial-duration">21:15</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 12: Media Queries</h3>
+                            <p class="tutorial-duration">16:30</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 13: CSS Animations</h3>
+                            <p class="tutorial-duration">18:45</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 14: CSS Transitions</h3>
+                            <p class="tutorial-duration">14:20</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 15: Introduction to JavaScript</h3>
+                            <p class="tutorial-duration">17:55</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 16: JavaScript Variables</h3>
+                            <p class="tutorial-duration">15:40</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 17: JavaScript Functions</h3>
+                            <p class="tutorial-duration">19:25</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 18: JavaScript Arrays</h3>
+                            <p class="tutorial-duration">20:35</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 19: JavaScript Objects</h3>
+                            <p class="tutorial-duration">18:50</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 20: DOM Manipulation</h3>
+                            <p class="tutorial-duration">22:15</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 21: Event Listeners</h3>
+                            <p class="tutorial-duration">16:45</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 22: JavaScript Forms</h3>
+                            <p class="tutorial-duration">19:30</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 23: LocalStorage API</h3>
+                            <p class="tutorial-duration">17:20</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 24: Fetch API</h3>
+                            <p class="tutorial-duration">21:40</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 25: Async/Await</h3>
+                            <p class="tutorial-duration">20:05</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 26: ES6 Features</h3>
+                            <p class="tutorial-duration">23:15</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 27: JavaScript Modules</h3>
+                            <p class="tutorial-duration">18:25</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 28: Error Handling</h3>
+                            <p class="tutorial-duration">16:50</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 29: Building a Project</h3>
+                            <p class="tutorial-duration">28:30</p>
+                        </div>
+                    </div>
+
+                    <div class="tutorial-card">
+                        <div class="tutorial-thumbnail">
+                            <div class="thumbnail-placeholder">
+                                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="tutorial-info">
+                            <h3>Lesson 30: Best Practices</h3>
+                            <p class="tutorial-duration">25:45</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Veltrix IDE</h3>
+                <p>The Next Generation Cloud IDE</p>
+                <p class="copyright">&copy; 2026 Mohammad Khan. All rights reserved.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="tutorials.html">Tutorials</a></li>
+                    <li><a href="lab.html">Lab</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: support@veltrixide.com</p>
+                <p>Founded: February 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal hidden" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="loginModalClose">&times;</button>
+            <h2>Login to Veltrix IDE</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username or Email</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="signupModal">
+        <div class="modal-content">
+            <button class="modal-close" id="signupModalClose">&times;</button>
+            <h2>Create Your Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupFullName">Full Name</label>
+                    <input type="text" id="signupFullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                <p class="form-footer">Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
