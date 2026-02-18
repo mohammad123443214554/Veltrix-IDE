@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Veltrix IDE Lab - Cloud-based code editor with live preview. Write HTML, CSS, and JavaScript in your browser.">
+    <meta name="keywords" content="online code editor, cloud ide, html css javascript editor, live preview">
+    <meta name="author" content="Mohammad Khan">
+    
+    <title>Lab - Veltrix IDE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e40af">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 5L35 15V25L20 35L5 25V15L20 5Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <path d="M20 15L28 20L20 25L12 20L20 15Z" fill="currentColor"/>
+                </svg>
+                <span class="brand-name">Veltrix IDE</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="tutorials.html" class="nav-link">Tutorials</a>
+                <a href="lab.html" class="nav-link active">Lab</a>
+                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+                <div class="auth-section" id="authSection">
+                    <button class="btn-login" id="loginBtn">Login</button>
+                    <button class="btn-signup" id="signupBtn">Sign Up</button>
+                </div>
+                <div class="user-section hidden" id="userSection">
+                    <span class="username-display" id="usernameDisplay"></span>
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <button class="btn-logout" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="lab-page">
+        <div class="lab-locked" id="labLocked">
+            <div class="locked-content">
+                <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <h2>Lab Access Locked</h2>
+                <p>Please sign in to access the Lab and start coding.</p>
+                <div class="locked-buttons">
+                    <button class="btn btn-primary" id="lockedLoginBtn">Login</button>
+                    <button class="btn btn-secondary" id="lockedSignupBtn">Sign Up</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-workspace hidden" id="labWorkspace">
+            <div class="lab-sidebar">
+                <div class="sidebar-header">
+                    <h3>File Explorer</h3>
+                </div>
+                <div class="sidebar-actions">
+                    <button class="sidebar-btn" id="addFileBtn" title="Add File">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="12" y1="18" x2="12" y2="12"/>
+                            <line x1="9" y1="15" x2="15" y2="15"/>
+                        </svg>
+                        Add File
+                    </button>
+                    <button class="sidebar-btn" id="addFolderBtn" title="Add Folder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                            <line x1="12" y1="11" x2="12" y2="17"/>
+                            <line x1="9" y1="14" x2="15" y2="14"/>
+                        </svg>
+                        Add Folder
+                    </button>
+                </div>
+                <div class="file-tree" id="fileTree">
+                    <div class="file-item" data-file="index.html">
+                        <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        <span>index.html</span>
+                    </div>
+                    <div class="file-item" data-file="style.css">
+                        <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        <span>style.css</span>
+                    </div>
+                    <div class="file-item" data-file="script.js">
+                        <svg class="file-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        <span>script.js</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lab-editor">
+                <div class="editor-tabs">
+                    <div class="tab active" data-tab="html">
+                        <span>HTML</span>
+                        <button class="tab-close">×</button>
+                    </div>
+                    <div class="tab" data-tab="css">
+                        <span>CSS</span>
+                        <button class="tab-close">×</button>
+                    </div>
+                    <div class="tab" data-tab="js">
+                        <span>JavaScript</span>
+                        <button class="tab-close">×</button>
+                    </div>
+                </div>
+                <div class="editor-content">
+                    <textarea class="code-editor active" id="htmlEditor" spellcheck="false" placeholder="Write your HTML code here..."></textarea>
+                    <textarea class="code-editor" id="cssEditor" spellcheck="false" placeholder="Write your CSS code here..."></textarea>
+                    <textarea class="code-editor" id="jsEditor" spellcheck="false" placeholder="Write your JavaScript code here..."></textarea>
+                </div>
+            </div>
+
+            <div class="lab-preview">
+                <div class="preview-header">
+                    <h3>Live Preview</h3>
+                    <button class="preview-refresh" id="previewRefresh" title="Refresh Preview">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"/>
+                            <polyline points="1 20 1 14 7 14"/>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                        </svg>
+                    </button>
+                </div>
+                <iframe class="preview-frame" id="previewFrame"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal hidden" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" id="loginModalClose">&times;</button>
+            <h2>Login to Veltrix IDE</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username or Email</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="form-footer">Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="signupModal">
+        <div class="modal-content">
+            <button class="modal-close" id="signupModalClose">&times;</button>
+            <h2>Create Your Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupFullName">Full Name</label>
+                    <input type="text" id="signupFullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                <p class="form-footer">Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
