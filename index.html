@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veltrix IDE - Professional Developer Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <nav class="veltrix-nav">
+        <div class="nav-left">
+            <div class="user-profile" id="userProfileBtn">
+                <img src="default-avatar.png" alt="User" id="profileImg">
+                <div class="user-info">
+                    <span id="displayFullName">Guest User</span>
+                    <small id="displayUsername">@veltrix_guest</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <div class="logo-area">
+                <img src="logo.png" alt="Veltrix Logo" class="main-logo">
+                <h1>Veltrix <span>IDE</span></h1>
+            </div>
+        </div>
+        
+        <div class="nav-right">
+            <ul class="nav-menu">
+                <li><a href="#" class="active" onclick="switchPage('home')">Home</a></li>
+                <li><a href="#" onclick="switchPage('tutorials')">Tutorials</a></li>
+                <li><a href="#" onclick="switchPage('lab')">Lab <i class="fas fa-lock"></i></a></li>
+                <li><a href="#" onclick="switchPage('about')">About</a></li>
+            </ul>
+            <button id="themeToggle"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <main id="main-content">
+        <section id="home-page" class="content-page active">
+            <div class="hero-section">
+                <div class="hero-text">
+                    <h1>The Next Generation <br><span>Cloud IDE</span></h1>
+                    <p>Build, Test, and Deploy your code faster than ever before. Veltrix IDE brings the power of a desktop editor to your browser.</p>
+                    <div class="hero-btns">
+                        <button class="btn-primary" onclick="switchPage('lab')">Start Coding</button>
+                        <button class="btn-secondary" onclick="switchPage('tutorials')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-page" class="content-page">
+            <div class="about-card">
+                <div class="about-header">
+                    <h2>About Veltrix IDE</h2>
+                    <p>Professional Development Environment</p>
+                </div>
+                <div class="about-body">
+                    <p><strong>Veltrix IDE</strong> is a high-performance, cloud-based Integrated Development Environment (IDE) designed for modern web developers. Launched in <strong>February 2026</strong>, our platform offers a seamless coding experience with built-in collaboration tools and real-time previewing.</p>
+                    
+                    <div class="ownership-box">
+                        <i class="fas fa-shield-alt"></i>
+                        <p>This platform is <strong>Owned and Developed by Mohammad Khan</strong>. Mohammad's vision was to create a lightweight yet powerful tool that accessible to everyone from anywhere in the world.</p>
+                    </div>
+
+                    <div class="about-stats">
+                        <div class="stat"><span>2026</span><label>Founded</label></div>
+                        <div class="stat"><span>v1.0.0</span><label>Version</label></div>
+                        <div class="stat"><span>Global</span><label>Reach</label></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tutorials-page" class="content-page">
+            <div class="section-title">
+                <h2>Master Your Skills</h2>
+                <p>30+ Premium Video Tutorials for Professional Coding</p>
+            </div>
+            <div class="video-grid" id="videoContainer">
+                </div>
+        </section>
+
+        <section id="lab-page" class="content-page">
+            <div class="auth-gate">
+                <i class="fas fa-user-lock"></i>
+                <h2>Restricted Access</h2>
+                <p>The Lab Environment is locked for security. Please create a Veltrix Account to continue.</p>
+                <button class="btn-primary" onclick="openAuthModal()">Sign Up Now</button>
+            </div>
+        </section>
+    </main>
+
+    <div id="authModal" class="modal-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3>Veltrix Account</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="signupForm">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="regName" placeholder="Mohammad Khan" required>
+                </div>
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="regUser" placeholder="mohammad_786" required>
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" placeholder="khan@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="regPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-full">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
