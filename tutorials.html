@@ -3,182 +3,231 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
   <title>Tutorials — Veltrix IDE</title>
-  <meta name="description" content="Learn web development with Veltrix IDE tutorials. 30 video lessons covering HTML, CSS, JavaScript, and more." />
+  <meta name="description" content="30 free web development video tutorials. Learn HTML, CSS, JavaScript, and more with Veltrix IDE's structured lesson library." />
   <meta name="author" content="Mohammad Khan" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://veltrixide.vercel.app/tutorials.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
   <meta property="og:title" content="Tutorials — Veltrix IDE" />
-  <meta property="og:description" content="30 video lessons for modern web development." />
+  <meta property="og:description" content="30 video lessons covering HTML, CSS, JavaScript and more." />
+  <meta property="og:url" content="https://veltrixide.vercel.app/tutorials.html" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Tutorials — Veltrix IDE" />
+
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Instant theme -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('veltrix_theme') || 'aquatic';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
 <body>
 
-<!-- ======= NAVBAR ======= -->
+<!-- NAVBAR -->
 <nav class="navbar" role="navigation" aria-label="Main navigation">
-  <div class="navbar-inner">
-    <a href="index.html" class="nav-logo" aria-label="Veltrix IDE home">
-      <div class="logo-icon" aria-hidden="true">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 5l4 5-4 5h2.5l4-5-4-5H3zm7.5 0l4 5-4 5H13l4-5-4-5h-2.5z"/>
-        </svg>
-      </div>
-      Veltrix IDE
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Veltrix IDE — Home">
+      <img src="logo.png" alt="Veltrix Logo" class="logo" />
+      <span class="brand-name">Veltrix IDE</span>
     </a>
-
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="tutorials.html" class="active">Tutorials</a></li>
-      <li><a href="lab.html">Lab</a></li>
+    <ul class="nav-links" role="menubar">
+      <li role="none"><a href="index.html" role="menuitem">Home</a></li>
+      <li role="none"><a href="about.html" role="menuitem">About</a></li>
+      <li role="none"><a href="tutorials.html" role="menuitem" class="active">Tutorials</a></li>
+      <li role="none"><a href="lab.html" role="menuitem">Lab</a></li>
     </ul>
-
     <div class="nav-right">
       <div class="theme-selector">
-        <button class="theme-btn" aria-label="Select theme">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
           </svg>
           <span class="theme-label">Aquatic</span>
         </button>
-        <div class="theme-dropdown"></div>
+        <div class="theme-dropdown" role="listbox"></div>
       </div>
-      <div id="auth-btns" style="display:flex;gap:0.5rem;align-items:center;">
-        <button class="btn-nav btn-outline" data-modal="login">Sign In</button>
-        <button class="btn-nav btn-solid" data-modal="signup">Get Started</button>
+      <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-ghost" data-open-modal="modal-login">Sign In</button>
+        <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
       </div>
-      <div id="user-info" style="display:none;align-items:center;gap:0.5rem;">
+      <div id="user-group" style="display:none;align-items:center;gap:8px;">
         <div class="user-pill">
           <div class="user-avatar" id="nav-avatar">U</div>
-          <span id="nav-username">User</span>
+          <span class="user-name" id="nav-username">User</span>
         </div>
-        <button class="btn-logout" id="logout-btn">Sign out</button>
+        <button class="btn-logout" id="logout-btn">Logout</button>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- ======= CONTENT ======= -->
+<!-- CONTENT -->
 <main>
   <div class="container">
+
     <div class="page-header">
-      <span class="tag">Video Lessons</span>
+      <span class="page-tag">Video Lessons</span>
       <h1>Tutorials</h1>
     </div>
 
     <!-- GOOGLE ADSENSE AD SLOT HERE -->
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Ad Slot — AdSense</div>
+    <!--
+      Replace with AdSense code:
+      data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+      data-ad-slot="YOUR_AD_SLOT_ID"
+    -->
+    <div class="ad-slot" aria-label="Advertisement placeholder">AdSense — Banner Slot</div>
 
-    <div class="tutorials-grid" id="tutorials-grid" role="list" aria-label="Tutorial lessons">
-      <!-- Generated by JS below -->
+    <div class="tutorials-grid" id="tutorials-grid" role="list" aria-label="Video tutorial lessons">
+      <!-- 30 cards injected by JavaScript below -->
     </div>
 
     <!-- GOOGLE ADSENSE AD SLOT HERE -->
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Ad Slot — AdSense</div>
+    <div class="ad-slot" aria-label="Advertisement placeholder">AdSense — Bottom Slot</div>
+
   </div>
 </main>
 
-<!-- ======= FOOTER ======= -->
+<!-- FOOTER -->
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
-    <div class="footer-logo">Veltrix IDE</div>
-    <p class="footer-copy">© 2026 Veltrix IDE by Mohammad Khan</p>
+    <div class="footer-brand">
+      <img src="logo.png" alt="Veltrix IDE" />
+      <span>Veltrix IDE</span>
+    </div>
+    <p class="footer-copy">© 2026 Veltrix IDE · Built by Mohammad Khan</p>
   </div>
 </footer>
 
 <!-- LOGIN MODAL -->
-<div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-heading">
-  <div class="modal" style="position:relative;">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-header">
-      <h2 id="login-heading">Welcome back</h2>
+<div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="login-title">Welcome back</h2>
       <p>Sign in to your Veltrix account</p>
     </div>
-    <form id="login-form" novalidate>
-      <div class="form-group"><label for="login-username">Username</label><input type="text" id="login-username" name="username" placeholder="yourhandle" required /></div>
-      <div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" required /></div>
-      <p class="modal-error" id="login-error"></p>
-      <button type="submit" class="btn btn-primary modal-submit">Sign In</button>
+    <form id="form-login" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="username" placeholder="yourhandle" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <div class="form-error" id="err-login"></div>
+      <button type="submit" class="btn btn-primary form-submit">Sign In</button>
     </form>
-    <p class="modal-switch">Don't have an account? <a data-modal="signup">Create one</a></p>
+    <p class="modal-footer">No account? <a data-open-modal="modal-signup">Create one free</a></p>
   </div>
 </div>
 
 <!-- SIGNUP MODAL -->
-<div class="modal-overlay" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-heading">
-  <div class="modal" style="position:relative;">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-header">
-      <h2 id="signup-heading">Create account</h2>
-      <p>Join Veltrix IDE — it's free</p>
+<div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="signup-title">Create account</h2>
+      <p>Join Veltrix IDE — it's completely free</p>
     </div>
-    <form id="signup-form" novalidate>
-      <div class="form-group"><label for="signup-fullname">Full Name</label><input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" required /></div>
-      <div class="form-group"><label for="signup-username">Username</label><input type="text" id="signup-username" name="username" placeholder="janedoe" required /></div>
-      <div class="form-group"><label for="signup-email">Email</label><input type="email" id="signup-email" name="email" placeholder="jane@example.com" required /></div>
-      <div class="form-group"><label for="signup-password">Password</label><input type="password" id="signup-password" name="password" placeholder="Min. 6 characters" required /></div>
-      <p class="modal-error" id="signup-error"></p>
-      <button type="submit" class="btn btn-primary modal-submit">Create Account</button>
+    <form id="form-signup" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="signup-fullname">Full Name</label>
+        <input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" autocomplete="name" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="username" placeholder="janedoe" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password" required />
+      </div>
+      <div class="form-error" id="err-signup"></div>
+      <button type="submit" class="btn btn-primary form-submit">Create Account</button>
     </form>
-    <p class="modal-switch">Already have an account? <a data-modal="login">Sign in</a></p>
+    <p class="modal-footer">Already have an account? <a data-open-modal="modal-login">Sign in</a></p>
   </div>
 </div>
 
 <script src="script.js"></script>
 <script>
-  // Generate 30 tutorial cards
+/* ── Generate 30 Tutorial Cards ── */
+(function() {
   const lessons = [
-    { title: "Introduction to Veltrix IDE", duration: "5:20", level: "Beginner" },
-    { title: "Setting Up Your First Project", duration: "7:45", level: "Beginner" },
-    { title: "HTML Basics: Structure & Semantics", duration: "12:10", level: "Beginner" },
-    { title: "Working with HTML Forms", duration: "9:30", level: "Beginner" },
-    { title: "CSS Fundamentals: Box Model", duration: "11:15", level: "Beginner" },
-    { title: "CSS Flexbox Layout", duration: "15:40", level: "Beginner" },
-    { title: "CSS Grid System", duration: "18:00", level: "Intermediate" },
-    { title: "Responsive Design Principles", duration: "13:50", level: "Intermediate" },
-    { title: "CSS Variables & Custom Properties", duration: "8:25", level: "Intermediate" },
-    { title: "CSS Animations & Transitions", duration: "14:30", level: "Intermediate" },
-    { title: "JavaScript Fundamentals", duration: "20:00", level: "Beginner" },
-    { title: "DOM Manipulation Basics", duration: "16:45", level: "Intermediate" },
-    { title: "JavaScript Events & Listeners", duration: "12:00", level: "Intermediate" },
-    { title: "Async JavaScript: Promises", duration: "17:20", level: "Intermediate" },
-    { title: "Fetch API & REST Calls", duration: "14:10", level: "Intermediate" },
-    { title: "ES6+ Modern JavaScript", duration: "22:30", level: "Intermediate" },
-    { title: "JavaScript Modules", duration: "10:15", level: "Intermediate" },
-    { title: "Local Storage & Session Storage", duration: "9:00", level: "Intermediate" },
-    { title: "Building a Todo App", duration: "25:00", level: "Intermediate" },
-    { title: "Building a Calculator", duration: "20:45", level: "Intermediate" },
-    { title: "CSS Custom Themes & Dark Mode", duration: "11:30", level: "Intermediate" },
-    { title: "Responsive Navigation Menus", duration: "13:00", level: "Intermediate" },
-    { title: "Form Validation with JavaScript", duration: "15:00", level: "Intermediate" },
-    { title: "Building a Weather App", duration: "30:00", level: "Advanced" },
-    { title: "Working with JSON Data", duration: "10:40", level: "Intermediate" },
-    { title: "CSS Clamp & Fluid Typography", duration: "8:55", level: "Advanced" },
-    { title: "Performance Optimization", duration: "18:30", level: "Advanced" },
-    { title: "Web Accessibility (a11y)", duration: "16:00", level: "Advanced" },
-    { title: "Progressive Web Apps (PWA)", duration: "24:00", level: "Advanced" },
-    { title: "Deploying Your First Web App", duration: "19:15", level: "Advanced" },
+    { title: "Introduction to Veltrix IDE",            duration: "5:20",  level: "Beginner"     },
+    { title: "Setting Up Your First Project",           duration: "7:45",  level: "Beginner"     },
+    { title: "HTML Basics: Structure & Semantics",      duration: "12:10", level: "Beginner"     },
+    { title: "HTML Forms & Input Elements",             duration: "9:30",  level: "Beginner"     },
+    { title: "CSS Fundamentals: Box Model",             duration: "11:15", level: "Beginner"     },
+    { title: "CSS Flexbox Layout System",               duration: "15:40", level: "Beginner"     },
+    { title: "CSS Grid: Full Guide",                    duration: "18:00", level: "Intermediate" },
+    { title: "Responsive Web Design Principles",        duration: "13:50", level: "Intermediate" },
+    { title: "CSS Variables & Custom Properties",       duration: "8:25",  level: "Intermediate" },
+    { title: "CSS Animations & Transitions",            duration: "14:30", level: "Intermediate" },
+    { title: "JavaScript Fundamentals",                 duration: "20:00", level: "Beginner"     },
+    { title: "DOM Manipulation Basics",                 duration: "16:45", level: "Intermediate" },
+    { title: "JavaScript Events & Listeners",           duration: "12:00", level: "Intermediate" },
+    { title: "Async JS: Promises & Async/Await",        duration: "17:20", level: "Intermediate" },
+    { title: "Fetch API & REST Endpoints",              duration: "14:10", level: "Intermediate" },
+    { title: "ES6+ Modern JavaScript Features",         duration: "22:30", level: "Intermediate" },
+    { title: "JavaScript Modules & Imports",            duration: "10:15", level: "Intermediate" },
+    { title: "LocalStorage & SessionStorage",           duration: "9:00",  level: "Intermediate" },
+    { title: "Build a Todo App from Scratch",           duration: "25:00", level: "Intermediate" },
+    { title: "Build a Calculator App",                  duration: "20:45", level: "Intermediate" },
+    { title: "Dark Mode & Theme Switching",             duration: "11:30", level: "Intermediate" },
+    { title: "Responsive Navbar with Hamburger",        duration: "13:00", level: "Intermediate" },
+    { title: "JavaScript Form Validation",              duration: "15:00", level: "Intermediate" },
+    { title: "Build a Weather App with API",            duration: "30:00", level: "Advanced"     },
+    { title: "Working with JSON Data",                  duration: "10:40", level: "Intermediate" },
+    { title: "CSS Clamp & Fluid Typography",            duration: "8:55",  level: "Advanced"     },
+    { title: "Web Performance Optimization",            duration: "18:30", level: "Advanced"     },
+    { title: "Web Accessibility (a11y) Deep Dive",      duration: "16:00", level: "Advanced"     },
+    { title: "Progressive Web Apps (PWA)",              duration: "24:00", level: "Advanced"     },
+    { title: "Deploying Your First Web App",            duration: "19:15", level: "Advanced"     },
   ];
 
   const grid = document.getElementById('tutorials-grid');
-  if (grid) {
-    grid.innerHTML = lessons.map((l, i) => `
-      <article class="tutorial-card" role="listitem" aria-label="Lesson ${i+1}: ${l.title}">
-        <div class="tutorial-thumb" aria-hidden="true">
-          <span class="lesson-num">#${String(i+1).padStart(2,'0')}</span>
-          <div class="play-btn">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </div>
+  if (!grid) return;
+
+  grid.innerHTML = lessons.map((l, i) => `
+    <article class="tutorial-card" role="listitem" tabindex="0" aria-label="Lesson ${i + 1}: ${l.title}">
+      <div class="tutorial-thumb" aria-hidden="true">
+        <span class="lesson-badge">#${String(i + 1).padStart(2, '0')}</span>
+        <div class="play-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </div>
-        <div class="tutorial-info">
-          <h3>${l.title}</h3>
-          <div class="tutorial-meta">
-            <span>${l.duration}</span>
-            <span>${l.level}</span>
-          </div>
+      </div>
+      <div class="tutorial-body">
+        <h3>${l.title}</h3>
+        <div class="tutorial-meta">
+          <span>${l.duration}</span>
+          <span>${l.level}</span>
         </div>
-      </article>
-    `).join('');
-  }
+      </div>
+    </article>
+  `).join('');
+})();
 </script>
 </body>
 </html>
