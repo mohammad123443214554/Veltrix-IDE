@@ -3,157 +3,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
   <title>About — Veltrix IDE</title>
-  <meta name="description" content="Veltrix IDE is a high-performance cloud development platform owned and developed by Mohammad Khan." />
+  <meta name="description" content="Veltrix IDE is owned and developed by Mohammad Khan. Founded February 2026 to provide developers with a powerful cloud coding environment." />
   <meta name="author" content="Mohammad Khan" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://veltrixide.vercel.app/about.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
   <meta property="og:title" content="About — Veltrix IDE" />
-  <meta property="og:description" content="Learn about the team and mission behind Veltrix IDE." />
+  <meta property="og:description" content="Learn about Veltrix IDE, founded by Mohammad Khan in February 2026." />
+  <meta property="og:url" content="https://veltrixide.vercel.app/about.html" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="About — Veltrix IDE" />
+  <meta name="twitter:description" content="Cloud IDE by Mohammad Khan." />
+
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Instant theme (no flash) -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('veltrix_theme') || 'aquatic';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
 <body>
 
-<!-- ======= NAVBAR ======= -->
+<!-- NAVBAR -->
 <nav class="navbar" role="navigation" aria-label="Main navigation">
-  <div class="navbar-inner">
-    <a href="index.html" class="nav-logo" aria-label="Veltrix IDE home">
-      <div class="logo-icon" aria-hidden="true">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 5l4 5-4 5h2.5l4-5-4-5H3zm7.5 0l4 5-4 5H13l4-5-4-5h-2.5z"/>
-        </svg>
-      </div>
-      Veltrix IDE
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Veltrix IDE — Home">
+      <img src="logo.png" alt="Veltrix Logo" class="logo" />
+      <span class="brand-name">Veltrix IDE</span>
     </a>
-
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html" class="active">About</a></li>
-      <li><a href="tutorials.html">Tutorials</a></li>
-      <li><a href="lab.html">Lab</a></li>
+    <ul class="nav-links" role="menubar">
+      <li role="none"><a href="index.html" role="menuitem">Home</a></li>
+      <li role="none"><a href="about.html" role="menuitem" class="active">About</a></li>
+      <li role="none"><a href="tutorials.html" role="menuitem">Tutorials</a></li>
+      <li role="none"><a href="lab.html" role="menuitem">Lab</a></li>
     </ul>
-
     <div class="nav-right">
       <div class="theme-selector">
-        <button class="theme-btn" aria-label="Select theme">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
           </svg>
           <span class="theme-label">Aquatic</span>
         </button>
-        <div class="theme-dropdown"></div>
+        <div class="theme-dropdown" role="listbox"></div>
       </div>
-      <div id="auth-btns" style="display:flex;gap:0.5rem;align-items:center;">
-        <button class="btn-nav btn-outline" data-modal="login">Sign In</button>
-        <button class="btn-nav btn-solid" data-modal="signup">Get Started</button>
+      <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-ghost" data-open-modal="modal-login">Sign In</button>
+        <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
       </div>
-      <div id="user-info" style="display:none;align-items:center;gap:0.5rem;">
+      <div id="user-group" style="display:none;align-items:center;gap:8px;">
         <div class="user-pill">
           <div class="user-avatar" id="nav-avatar">U</div>
-          <span id="nav-username">User</span>
+          <span class="user-name" id="nav-username">User</span>
         </div>
-        <button class="btn-logout" id="logout-btn">Sign out</button>
+        <button class="btn-logout" id="logout-btn">Logout</button>
       </div>
     </div>
   </div>
 </nav>
 
-<!-- ======= CONTENT ======= -->
+<!-- CONTENT -->
 <main>
-  <div class="container">
+  <div class="container-narrow">
+
     <div class="page-header">
-      <span class="tag">About the Platform</span>
+      <span class="page-tag">About the Platform</span>
       <h1>Built for modern<br>developers</h1>
     </div>
 
     <!-- GOOGLE ADSENSE AD SLOT HERE -->
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Ad Slot — AdSense</div>
+    <!--
+      Replace with AdSense code:
+      data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+      data-ad-slot="YOUR_AD_SLOT_ID"
+    -->
+    <div class="ad-slot" aria-label="Advertisement placeholder">AdSense — Banner Slot</div>
 
-    <section class="about-section" aria-labelledby="about-mission">
-      <h2 id="about-mission">Our Mission</h2>
+    <div class="about-block">
+      <h2>Our Mission</h2>
       <p>Veltrix IDE is a high-performance cloud development platform owned and developed by Mohammad Khan. Founded in February 2026, our mission is to provide a flexible, powerful, and accessible coding environment for developers worldwide.</p>
-    </section>
+    </div>
 
-    <section class="about-section" aria-labelledby="about-platform">
-      <h2 id="about-platform">The Platform</h2>
-      <p>Veltrix IDE runs entirely in your browser — no installations, no configurations. From the first line of code to a deployed project, we give you everything you need in a clean, distraction-free environment. Our editor supports HTML, CSS, and JavaScript with live preview out of the box, with more languages coming soon.</p>
-      <div class="about-grid">
-        <div class="about-stat">
+    <div class="about-block">
+      <h2>The Platform</h2>
+      <p>Veltrix IDE runs entirely in your browser — no installations, no setup, no friction. From a blank file to a deployed project, we give you everything you need in a clean, focused environment. Our editor supports HTML, CSS, and JavaScript with live preview, with more languages planned.</p>
+      <div class="about-stats">
+        <div class="about-stat-card">
           <div class="num">2026</div>
-          <div class="label">Year Founded</div>
+          <div class="lbl">Year Founded</div>
         </div>
-        <div class="about-stat">
+        <div class="about-stat-card">
           <div class="num">100%</div>
-          <div class="label">Browser-Based</div>
+          <div class="lbl">Browser-Based</div>
         </div>
-        <div class="about-stat">
+        <div class="about-stat-card">
           <div class="num">4</div>
-          <div class="label">Theme Modes</div>
+          <div class="lbl">Theme Modes</div>
         </div>
-        <div class="about-stat">
+        <div class="about-stat-card">
           <div class="num">Free</div>
-          <div class="label">Core Access</div>
+          <div class="lbl">Core Access</div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="about-section" aria-labelledby="about-developer">
-      <h2 id="about-developer">The Developer</h2>
-      <p>Veltrix IDE was founded and is actively developed by Mohammad Khan, a software engineer with a passion for developer tooling and accessible technology. The platform is built with performance, clarity, and user experience at the forefront.</p>
-    </section>
+    <div class="about-block">
+      <h2>The Founder</h2>
+      <p>Veltrix IDE was founded and is actively developed by Mohammad Khan, a software engineer with a passion for developer tooling and accessible technology. Every feature in Veltrix IDE exists to reduce friction and let developers focus purely on building.</p>
+    </div>
 
-    <section class="about-section" aria-labelledby="about-values">
-      <h2 id="about-values">Our Values</h2>
-      <p>We believe great developer tools should be simple, fast, and beautiful. Every design decision in Veltrix IDE prioritizes clarity and productivity — no clutter, no noise. Just you and your code.</p>
-    </section>
+    <div class="about-block">
+      <h2>Design Philosophy</h2>
+      <p>We believe great developer tools should be simple, fast, and beautiful. Veltrix IDE uses a strict grayscale design system across all four professional themes. No distractions. No clutter. Just you and your code.</p>
+    </div>
+
+    <div class="about-block">
+      <h2>What's Coming</h2>
+      <p>We're actively developing multi-file project management, real-time collaboration, and support for additional languages including Python, TypeScript, and more. Follow our updates and be among the first to access new features.</p>
+    </div>
 
     <!-- GOOGLE ADSENSE AD SLOT HERE -->
-    <div class="ad-slot" role="complementary" aria-label="Advertisement">Ad Slot — AdSense</div>
+    <div class="ad-slot" aria-label="Advertisement placeholder">AdSense — Bottom Slot</div>
+
   </div>
 </main>
 
-<!-- ======= FOOTER ======= -->
+<!-- FOOTER -->
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
-    <div class="footer-logo">Veltrix IDE</div>
-    <p class="footer-copy">© 2026 Veltrix IDE by Mohammad Khan</p>
+    <div class="footer-brand">
+      <img src="logo.png" alt="Veltrix IDE" />
+      <span>Veltrix IDE</span>
+    </div>
+    <p class="footer-copy">© 2026 Veltrix IDE · Built by Mohammad Khan</p>
   </div>
 </footer>
 
 <!-- LOGIN MODAL -->
-<div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-heading">
-  <div class="modal" style="position:relative;">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-header">
-      <h2 id="login-heading">Welcome back</h2>
+<div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="login-title">Welcome back</h2>
       <p>Sign in to your Veltrix account</p>
     </div>
-    <form id="login-form" novalidate>
-      <div class="form-group"><label for="login-username">Username</label><input type="text" id="login-username" name="username" placeholder="yourhandle" required /></div>
-      <div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" required /></div>
-      <p class="modal-error" id="login-error"></p>
-      <button type="submit" class="btn btn-primary modal-submit">Sign In</button>
+    <form id="form-login" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="username" placeholder="yourhandle" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <div class="form-error" id="err-login"></div>
+      <button type="submit" class="btn btn-primary form-submit">Sign In</button>
     </form>
-    <p class="modal-switch">Don't have an account? <a data-modal="signup">Create one</a></p>
+    <p class="modal-footer">No account? <a data-open-modal="modal-signup">Create one free</a></p>
   </div>
 </div>
 
 <!-- SIGNUP MODAL -->
-<div class="modal-overlay" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-heading">
-  <div class="modal" style="position:relative;">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-header">
-      <h2 id="signup-heading">Create account</h2>
-      <p>Join Veltrix IDE — it's free</p>
+<div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="signup-title">Create account</h2>
+      <p>Join Veltrix IDE — it's completely free</p>
     </div>
-    <form id="signup-form" novalidate>
-      <div class="form-group"><label for="signup-fullname">Full Name</label><input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" required /></div>
-      <div class="form-group"><label for="signup-username">Username</label><input type="text" id="signup-username" name="username" placeholder="janedoe" required /></div>
-      <div class="form-group"><label for="signup-email">Email</label><input type="email" id="signup-email" name="email" placeholder="jane@example.com" required /></div>
-      <div class="form-group"><label for="signup-password">Password</label><input type="password" id="signup-password" name="password" placeholder="Min. 6 characters" required /></div>
-      <p class="modal-error" id="signup-error"></p>
-      <button type="submit" class="btn btn-primary modal-submit">Create Account</button>
+    <form id="form-signup" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="signup-fullname">Full Name</label>
+        <input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" autocomplete="name" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="username" placeholder="janedoe" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password" required />
+      </div>
+      <div class="form-error" id="err-signup"></div>
+      <button type="submit" class="btn btn-primary form-submit">Create Account</button>
     </form>
-    <p class="modal-switch">Already have an account? <a data-modal="login">Sign in</a></p>
+    <p class="modal-footer">Already have an account? <a data-open-modal="modal-login">Sign in</a></p>
   </div>
 </div>
 
