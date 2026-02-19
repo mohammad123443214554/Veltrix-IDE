@@ -1,291 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="aquatic">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About Veltrix IDE - A high-performance cloud development platform owned and developed by Mohammad Khan. Founded in February 2026.">
-    <meta name="keywords" content="veltrix ide, about, mohammad khan, cloud ide, online development">
-    <meta name="author" content="Mohammad Khan">
-    
-    <meta property="og:title" content="About Veltrix IDE">
-    <meta property="og:description" content="Learn about Veltrix IDE - A high-performance cloud development platform for developers worldwide.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://veltrixide.com/about.html">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About Veltrix IDE">
-    <meta name="twitter:description" content="Learn about Veltrix IDE - A high-performance cloud development platform for developers worldwide.">
-    
-    <title>About - Veltrix IDE</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1e40af">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Veltrix IDE</title>
+  <meta name="description" content="Veltrix IDE is a high-performance cloud development platform owned and developed by Mohammad Khan." />
+  <meta name="author" content="Mohammad Khan" />
+  <meta property="og:title" content="About — Veltrix IDE" />
+  <meta property="og:description" content="Learn about the team and mission behind Veltrix IDE." />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 5L35 15V25L20 35L5 25V15L20 5Z" stroke="currentColor" stroke-width="2" fill="none"/>
-                    <path d="M20 15L28 20L20 25L12 20L20 15Z" fill="currentColor"/>
-                </svg>
-                <span class="brand-name">Veltrix IDE</span>
-            </div>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-links" id="navLinks">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link active">About</a>
-                <a href="tutorials.html" class="nav-link">Tutorials</a>
-                <a href="lab.html" class="nav-link">Lab</a>
-                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
-                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"/>
-                        <line x1="12" y1="1" x2="12" y2="3"/>
-                        <line x1="12" y1="21" x2="12" y2="23"/>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                        <line x1="1" y1="12" x2="3" y2="12"/>
-                        <line x1="21" y1="12" x2="23" y2="12"/>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                    </svg>
-                </button>
-                <div class="auth-section" id="authSection">
-                    <button class="btn-login" id="loginBtn">Login</button>
-                    <button class="btn-signup" id="signupBtn">Sign Up</button>
-                </div>
-                <div class="user-section hidden" id="userSection">
-                    <span class="username-display" id="usernameDisplay"></span>
-                    <div class="user-avatar" id="userAvatar"></div>
-                    <button class="btn-logout" id="logoutBtn">Logout</button>
-                </div>
-            </div>
+
+<!-- ======= NAVBAR ======= -->
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="navbar-inner">
+    <a href="index.html" class="nav-logo" aria-label="Veltrix IDE home">
+      <div class="logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 5l4 5-4 5h2.5l4-5-4-5H3zm7.5 0l4 5-4 5H13l4-5-4-5h-2.5z"/>
+        </svg>
+      </div>
+      Veltrix IDE
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="tutorials.html">Tutorials</a></li>
+      <li><a href="lab.html">Lab</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="theme-selector">
+        <button class="theme-btn" aria-label="Select theme">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+          <span class="theme-label">Aquatic</span>
+        </button>
+        <div class="theme-dropdown"></div>
+      </div>
+      <div id="auth-btns" style="display:flex;gap:0.5rem;align-items:center;">
+        <button class="btn-nav btn-outline" data-modal="login">Sign In</button>
+        <button class="btn-nav btn-solid" data-modal="signup">Get Started</button>
+      </div>
+      <div id="user-info" style="display:none;align-items:center;gap:0.5rem;">
+        <div class="user-pill">
+          <div class="user-avatar" id="nav-avatar">U</div>
+          <span id="nav-username">User</span>
         </div>
-    </nav>
+        <button class="btn-logout" id="logout-btn">Sign out</button>
+      </div>
+    </div>
+  </div>
+</nav>
 
-    <main class="about-page">
-        <section class="page-header">
-            <div class="container">
-                <h1>About Veltrix IDE</h1>
-                <p class="lead">Empowering developers with cutting-edge cloud technology</p>
-            </div>
-        </section>
-
-        <section class="about-content">
-            <div class="container">
-                <div class="about-grid">
-                    <div class="about-main">
-                        <div class="content-card">
-                            <h2>Our Story</h2>
-                            <p>Veltrix IDE is a high-performance cloud development platform owned and developed by Mohammad Khan. Founded in February 2026, our mission is to provide a flexible, powerful and accessible coding environment for developers worldwide.</p>
-                            <p>In an era where development tools are becoming increasingly complex and resource-intensive, we believe that coding should be accessible to everyone, everywhere. Veltrix IDE removes the barriers of traditional development environments by bringing the entire IDE experience to your browser.</p>
-                            <p>Our platform is built on the principle that great software can be created from anywhere. Whether you're a student learning to code, a professional developer working on a critical project, or an educator teaching programming concepts, Veltrix IDE provides the tools you need without the overhead of complex installations or powerful hardware requirements.</p>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>Our Mission</h2>
-                            <p>To democratize software development by providing a professional-grade, cloud-based integrated development environment that is:</p>
-                            <ul class="mission-list">
-                                <li><strong>Accessible:</strong> Available on any device with a modern web browser</li>
-                                <li><strong>Powerful:</strong> Equipped with features that match desktop IDEs</li>
-                                <li><strong>Intuitive:</strong> Easy to use for beginners while robust for professionals</li>
-                                <li><strong>Collaborative:</strong> Designed to support modern development workflows</li>
-                                <li><strong>Free:</strong> Core features available at no cost to all users</li>
-                            </ul>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>Technology Stack</h2>
-                            <p>Veltrix IDE is built using cutting-edge web technologies to deliver a seamless development experience:</p>
-                            <div class="tech-grid">
-                                <div class="tech-item">
-                                    <h4>Frontend</h4>
-                                    <p>Modern HTML5, CSS3, and JavaScript for a responsive and intuitive interface</p>
-                                </div>
-                                <div class="tech-item">
-                                    <h4>Real-Time Processing</h4>
-                                    <p>Instant code compilation and preview using advanced browser APIs</p>
-                                </div>
-                                <div class="tech-item">
-                                    <h4>PWA Technology</h4>
-                                    <p>Progressive Web App capabilities for offline access and native-like experience</p>
-                                </div>
-                                <div class="tech-item">
-                                    <h4>Cloud Storage</h4>
-                                    <p>Secure project storage with automatic synchronization</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="content-card">
-                            <h2>Core Features</h2>
-                            <div class="features-list">
-                                <div class="feature-item">
-                                    <h4>Multi-Tab Code Editor</h4>
-                                    <p>Write HTML, CSS, and JavaScript in separate, organized tabs with syntax highlighting and auto-completion.</p>
-                                </div>
-                                <div class="feature-item">
-                                    <h4>Live Preview</h4>
-                                    <p>See your changes instantly as you type. No need to manually refresh or rebuild.</p>
-                                </div>
-                                <div class="feature-item">
-                                    <h4>File Management</h4>
-                                    <p>Create, organize, and manage your project files and folders with an intuitive file explorer.</p>
-                                </div>
-                                <div class="feature-item">
-                                    <h4>Responsive Design</h4>
-                                    <p>Work on any device - desktop, tablet, or mobile. Your IDE adapts to your screen.</p>
-                                </div>
-                                <div class="feature-item">
-                                    <h4>Theme Customization</h4>
-                                    <p>Choose from multiple themes including light, dark, and high contrast modes for comfortable coding.</p>
-                                </div>
-                                <div class="feature-item">
-                                    <h4>Educational Resources</h4>
-                                    <p>Access comprehensive tutorials to learn web development from basics to advanced concepts.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <aside class="about-sidebar">
-                        <div class="sidebar-card">
-                            <h3>Quick Facts</h3>
-                            <div class="fact-item">
-                                <strong>Founded:</strong>
-                                <span>February 2026</span>
-                            </div>
-                            <div class="fact-item">
-                                <strong>Founder:</strong>
-                                <span>Mohammad Khan</span>
-                            </div>
-                            <div class="fact-item">
-                                <strong>Type:</strong>
-                                <span>Cloud IDE Platform</span>
-                            </div>
-                            <div class="fact-item">
-                                <strong>Users:</strong>
-                                <span>Growing Daily</span>
-                            </div>
-                        </div>
-
-                        <div class="sidebar-card">
-                            <h3>Get Started</h3>
-                            <p>Ready to start coding in the cloud?</p>
-                            <a href="lab.html" class="btn btn-primary btn-block">Launch Lab</a>
-                            <a href="tutorials.html" class="btn btn-secondary btn-block">View Tutorials</a>
-                        </div>
-
-                        <div class="sidebar-card">
-                            <h3>Contact Us</h3>
-                            <p>Have questions or feedback?</p>
-                            <p><strong>Email:</strong><br>support@veltrixide.com</p>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-        </section>
-
-        <section class="vision-section">
-            <div class="container">
-                <h2>Our Vision for the Future</h2>
-                <p class="vision-text">We envision a world where anyone with an internet connection can build, deploy, and share software. Veltrix IDE is just the beginning. We're continuously working on new features and improvements to make cloud development even more powerful and accessible.</p>
-                <div class="roadmap-grid">
-                    <div class="roadmap-item">
-                        <h4>Collaboration Tools</h4>
-                        <p>Real-time collaborative coding with multiple developers</p>
-                    </div>
-                    <div class="roadmap-item">
-                        <h4>More Languages</h4>
-                        <p>Support for Python, Java, and other popular languages</p>
-                    </div>
-                    <div class="roadmap-item">
-                        <h4>Cloud Deployment</h4>
-                        <p>One-click deployment to popular hosting platforms</p>
-                    </div>
-                    <div class="roadmap-item">
-                        <h4>AI Assistance</h4>
-                        <p>Intelligent code suggestions and debugging help</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Veltrix IDE</h3>
-                <p>The Next Generation Cloud IDE</p>
-                <p class="copyright">&copy; 2026 Mohammad Khan. All rights reserved.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="tutorials.html">Tutorials</a></li>
-                    <li><a href="lab.html">Lab</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <p>Email: support@veltrixide.com</p>
-                <p>Founded: February 2026</p>
-            </div>
-        </div>
-    </footer>
-
-    <div class="modal hidden" id="loginModal">
-        <div class="modal-content">
-            <button class="modal-close" id="loginModalClose">&times;</button>
-            <h2>Login to Veltrix IDE</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginUsername">Username or Email</label>
-                    <input type="text" id="loginUsername" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
-                <p class="form-footer">Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
-            </form>
-        </div>
+<!-- ======= CONTENT ======= -->
+<main>
+  <div class="container">
+    <div class="page-header">
+      <span class="tag">About the Platform</span>
+      <h1>Built for modern<br>developers</h1>
     </div>
 
-    <div class="modal hidden" id="signupModal">
-        <div class="modal-content">
-            <button class="modal-close" id="signupModalClose">&times;</button>
-            <h2>Create Your Account</h2>
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="signupFullName">Full Name</label>
-                    <input type="text" id="signupFullName" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupUsername">Username</label>
-                    <input type="text" id="signupUsername" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupEmail">Email</label>
-                    <input type="email" id="signupEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                <p class="form-footer">Already have an account? <a href="#" id="switchToLogin">Login</a></p>
-            </form>
-        </div>
-    </div>
+    <!-- GOOGLE ADSENSE AD SLOT HERE -->
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">Ad Slot — AdSense</div>
 
-    <script src="script.js"></script>
+    <section class="about-section" aria-labelledby="about-mission">
+      <h2 id="about-mission">Our Mission</h2>
+      <p>Veltrix IDE is a high-performance cloud development platform owned and developed by Mohammad Khan. Founded in February 2026, our mission is to provide a flexible, powerful, and accessible coding environment for developers worldwide.</p>
+    </section>
+
+    <section class="about-section" aria-labelledby="about-platform">
+      <h2 id="about-platform">The Platform</h2>
+      <p>Veltrix IDE runs entirely in your browser — no installations, no configurations. From the first line of code to a deployed project, we give you everything you need in a clean, distraction-free environment. Our editor supports HTML, CSS, and JavaScript with live preview out of the box, with more languages coming soon.</p>
+      <div class="about-grid">
+        <div class="about-stat">
+          <div class="num">2026</div>
+          <div class="label">Year Founded</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">100%</div>
+          <div class="label">Browser-Based</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">4</div>
+          <div class="label">Theme Modes</div>
+        </div>
+        <div class="about-stat">
+          <div class="num">Free</div>
+          <div class="label">Core Access</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section" aria-labelledby="about-developer">
+      <h2 id="about-developer">The Developer</h2>
+      <p>Veltrix IDE was founded and is actively developed by Mohammad Khan, a software engineer with a passion for developer tooling and accessible technology. The platform is built with performance, clarity, and user experience at the forefront.</p>
+    </section>
+
+    <section class="about-section" aria-labelledby="about-values">
+      <h2 id="about-values">Our Values</h2>
+      <p>We believe great developer tools should be simple, fast, and beautiful. Every design decision in Veltrix IDE prioritizes clarity and productivity — no clutter, no noise. Just you and your code.</p>
+    </section>
+
+    <!-- GOOGLE ADSENSE AD SLOT HERE -->
+    <div class="ad-slot" role="complementary" aria-label="Advertisement">Ad Slot — AdSense</div>
+  </div>
+</main>
+
+<!-- ======= FOOTER ======= -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-logo">Veltrix IDE</div>
+    <p class="footer-copy">© 2026 Veltrix IDE by Mohammad Khan</p>
+  </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-heading">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-header">
+      <h2 id="login-heading">Welcome back</h2>
+      <p>Sign in to your Veltrix account</p>
+    </div>
+    <form id="login-form" novalidate>
+      <div class="form-group"><label for="login-username">Username</label><input type="text" id="login-username" name="username" placeholder="yourhandle" required /></div>
+      <div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" required /></div>
+      <p class="modal-error" id="login-error"></p>
+      <button type="submit" class="btn btn-primary modal-submit">Sign In</button>
+    </form>
+    <p class="modal-switch">Don't have an account? <a data-modal="signup">Create one</a></p>
+  </div>
+</div>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-heading">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" aria-label="Close">&times;</button>
+    <div class="modal-header">
+      <h2 id="signup-heading">Create account</h2>
+      <p>Join Veltrix IDE — it's free</p>
+    </div>
+    <form id="signup-form" novalidate>
+      <div class="form-group"><label for="signup-fullname">Full Name</label><input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" required /></div>
+      <div class="form-group"><label for="signup-username">Username</label><input type="text" id="signup-username" name="username" placeholder="janedoe" required /></div>
+      <div class="form-group"><label for="signup-email">Email</label><input type="email" id="signup-email" name="email" placeholder="jane@example.com" required /></div>
+      <div class="form-group"><label for="signup-password">Password</label><input type="password" id="signup-password" name="password" placeholder="Min. 6 characters" required /></div>
+      <p class="modal-error" id="signup-error"></p>
+      <button type="submit" class="btn btn-primary modal-submit">Create Account</button>
+    </form>
+    <p class="modal-switch">Already have an account? <a data-modal="login">Sign in</a></p>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
