@@ -1,5 +1,11 @@
+/* ============================================
+   VELTRIX IDE — service-worker.js
+   PWA Service Worker (Cache-First Strategy)
+   ============================================ */
+
 const CACHE_NAME = 'veltrix-ide-v1';
-const urlsToCache = [
+
+const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/about.html',
@@ -7,133 +13,61 @@ const urlsToCache = [
   '/lab.html',
   '/style.css',
   '/script.js',
-  '/manifest.json'
+  '/manifest.json',
 ];
 
-// Install event - cache resources
-self.addEventListener('install', event => {
+/* ====== INSTALL: Cache static assets ====== */
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-      .catch(error => {
-        console.error('Cache install failed:', error);
-      })
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(STATIC_ASSETS);
+    })
   );
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches
-self.addEventListener('activate', event => {
+/* ====== ACTIVATE: Clear old caches ====== */
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.keys().then((keys) => {
       return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
+        keys
+          .filter((key) => key !== CACHE_NAME)
+          .map((key) => caches.delete(key))
       );
     })
   );
   self.clients.claim();
 });
 
-// Fetch event - serve from cache, fallback to network
-self.addEventListener('fetch', event => {
+/* ====== FETCH: Cache-first, network fallback ====== */
+self.addEventListener('fetch', (event) => {
+  // Only handle GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Skip non-http(s) requests
+  if (!event.request.url.startsWith('http')) return;
+
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then(response => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        });
-      })
-      .catch(error => {
-        console.error('Fetch failed:', error);
-        // You can return a custom offline page here
-        // return caches.match('/offline.html');
-      })
-  );
-});
-
-// Background sync event (optional - for future features)
-self.addEventListener('sync', event => {
-  if (event.tag === 'sync-projects') {
-    event.waitUntil(syncProjects());
-  }
-});
-
-async function syncProjects() {
-  // Placeholder for syncing user projects to cloud
-  console.log('Syncing projects...');
-}
-
-// Push notification event (optional - for future features)
-self.addEventListener('push', event => {
-  const options = {
-    body: event.data ? event.data.text() : 'New update available!',
-    icon: '/icon-192.png',
-    badge: '/icon-72.png',
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
-    actions: [
-      {
-        action: 'explore',
-        title: 'Open Veltrix IDE'
-      },
-      {
-        action: 'close',
-        title: 'Close'
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
       }
-    ]
-  };
-
-  event.waitUntil(
-    self.registration.showNotification('Veltrix IDE', options)
+      return fetch(event.request).then((networkResponse) => {
+        // Cache new resources
+        if (networkResponse && networkResponse.status === 200) {
+          const cloned = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, cloned);
+          });
+        }
+        return networkResponse;
+      });
+    }).catch(() => {
+      // Offline fallback: return index.html for navigation requests
+      if (event.request.mode === 'navigate') {
+        return caches.match('/index.html');
+      }
+    })
   );
-});
-
-// Notification click event
-self.addEventListener('notificationclick', event => {
-  event.notification.close();
-
-  if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  }
-});
-
-// Message event - for communication with clients
-self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
 });
