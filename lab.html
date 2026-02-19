@@ -3,29 +3,415 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- SEO -->
   <title>Lab — Veltrix IDE</title>
-  <meta name="description" content="Veltrix IDE Lab: a full cloud code editor with live preview. Sign in to start building HTML, CSS, and JavaScript projects." />
+  <meta name="description" content="Veltrix IDE Lab: cloud code editor with live preview. Sign in to start building." />
   <meta name="author" content="Mohammad Khan" />
   <meta name="robots" content="noindex" />
-
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0a0a0a" />
-
-  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* Lab page overrides: full-height, no scroll */
+    /* ── Lab page: full viewport, no scroll ── */
     html, body { height: 100%; overflow: hidden; }
-    .lab-page  { height: 100%; overflow: hidden; }
+
+    .lab-page {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── IDE wrapper ── */
+    .ide-wrap {
+      display: none;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .ide-wrap.visible { display: flex; }
+
+    /* ── Sidebar ── */
+    .ide-sidebar {
+      width: 230px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      background: var(--bg-alt);
+      overflow: hidden;
+    }
+
+    .sidebar-head {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px 0 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-alt);
+      flex-shrink: 0;
+    }
+
+    .sidebar-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .sidebar-btns {
+      display: flex;
+      gap: 4px;
+    }
+
+    .side-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 24px;
+      padding: 0 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-3);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
+    }
+    .side-action-btn:hover {
+      color: var(--text-1);
+      border-color: var(--border-strong);
+      background: var(--bg-hover);
+    }
+
+    /* ── File tree ── */
+    .file-tree {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 4px 0;
+    }
+
+    .tree-empty {
+      padding: 20px 14px;
+      font-size: 12px;
+      color: var(--text-3);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.6;
+    }
+
+    /* ── Tree row (file or folder) ── */
+    .tree-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 8px 0 14px;
+      height: 30px;
+      position: relative;
+      transition: background 0.1s;
+      user-select: none;
+    }
+
+    .tree-file-row {
+      cursor: pointer;
+    }
+    .tree-file-row:hover { background: var(--bg-hover); }
+    .tree-file-row:hover .tree-menu-btn { opacity: 1; }
+    .tree-file-row.active { background: var(--bg-hover); }
+    .tree-file-row.active .tree-name { color: var(--text-1); font-weight: 600; }
+    .tree-file-row:focus-visible { outline: 2px solid var(--border-strong); outline-offset: -2px; }
+
+    .tree-folder-row { cursor: default; }
+    .tree-folder-row:hover { background: var(--bg-hover); }
+    .tree-folder-row:hover .tree-menu-btn { opacity: 1; }
+
+    .tree-icon {
+      font-size: 13px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .tree-name {
+      flex: 1;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+
+    /* ── 3-dot menu button ── */
+    .tree-menu-btn {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      color: var(--text-3);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.1s, background 0.1s, color 0.1s;
+      padding: 0;
+    }
+    .tree-menu-btn:hover {
+      background: var(--border);
+      color: var(--text-1);
+      opacity: 1 !important;
+    }
+    /* Always visible on active row */
+    .tree-file-row.active .tree-menu-btn { opacity: 0.5; }
+    .tree-file-row.active .tree-menu-btn:hover { opacity: 1; }
+
+    /* ── Context menu (3-dot dropdown) ── */
+    .tree-context-menu {
+      position: fixed;
+      z-index: 9999;
+      min-width: 160px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      padding: 4px;
+      animation: ctxFadeIn 0.1s ease;
+    }
+
+    @keyframes ctxFadeIn {
+      from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0);    }
+    }
+
+    .ctx-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      padding: 7px 10px;
+      background: transparent;
+      border: none;
+      border-radius: 5px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-2);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .ctx-item:hover {
+      background: var(--bg-hover);
+      color: var(--text-1);
+    }
+    .ctx-item.ctx-danger { color: #b94040; }
+    .ctx-item.ctx-danger:hover { background: rgba(185,64,64,0.08); color: #b94040; }
+
+    .ctx-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 3px 4px;
+    }
+
+    /* ── Editor panel (center) ── */
+    .ide-editor-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    /* ── Tab bar ── */
+    .ide-tab-bar {
+      display: flex;
+      height: 38px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-alt);
+      overflow-x: auto;
+      overflow-y: hidden;
+      flex-shrink: 0;
+      scrollbar-width: none;
+    }
+    .ide-tab-bar::-webkit-scrollbar { display: none; }
+
+    .ide-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 100%;
+      padding: 0 14px;
+      border: none;
+      border-right: 1px solid var(--border);
+      background: transparent;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-3);
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: 180px;
+      transition: background 0.1s, color 0.1s;
+    }
+    .ide-tab:hover { background: var(--bg-hover); color: var(--text-2); }
+    .ide-tab.active {
+      background: var(--bg-card);
+      color: var(--text-1);
+      font-weight: 600;
+    }
+
+    .tab-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tab-close {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 3px;
+      font-size: 14px;
+      line-height: 1;
+      color: var(--text-3);
+      transition: background 0.1s, color 0.1s;
+    }
+    .tab-close:hover {
+      background: var(--border);
+      color: var(--text-1);
+    }
+
+    .tab-placeholder {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-3);
+    }
+
+    /* ── Single code editor ── */
+    #ide-code-editor {
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      display: block;
+      background: var(--bg-card);
+      color: var(--text-1);
+      border: none;
+      outline: none;
+      padding: 16px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      resize: none;
+      tab-size: 2;
+      overflow: auto;
+      transition: background 0.2s;
+    }
+    #ide-code-editor:disabled {
+      background: var(--bg-alt);
+      cursor: not-allowed;
+      color: var(--text-3);
+    }
+
+    /* ── Status bar ── */
+    .ide-statusbar {
+      height: 24px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 16px;
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-3);
+    }
+
+    .statusbar-sep {
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+    }
+
+    /* ── Preview panel ── */
+    .ide-preview {
+      width: 380px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border);
+    }
+
+    .preview-head {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-alt);
+      flex-shrink: 0;
+    }
+
+    .preview-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .preview-refresh {
+      height: 24px;
+      padding: 0 9px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-3);
+      cursor: pointer;
+      transition: color 0.12s, border-color 0.12s;
+    }
+    .preview-refresh:hover {
+      color: var(--text-1);
+      border-color: var(--border-strong);
+    }
+
+    .preview-frame {
+      flex: 1;
+      border: none;
+      background: #ffffff;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .ide-preview { display: none; }
+    }
+    @media (max-width: 640px) {
+      .ide-sidebar { width: 0; overflow: hidden; display: none; }
+    }
   </style>
 
-  <!-- Instant theme -->
+  <!-- Instant theme — no flash -->
   <script>
-    (function() {
+    (function () {
       var t = localStorage.getItem('veltrix_theme') || 'aquatic';
       document.documentElement.setAttribute('data-theme', t);
     })();
@@ -35,50 +421,72 @@
 
 <div class="lab-page">
 
-  <!-- NAVBAR -->
+  <!-- ════════════════════════════════════════
+       NAVBAR
+       ════════════════════════════════════════ -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
+
       <a href="index.html" class="nav-logo" aria-label="Veltrix IDE — Home">
         <img src="logo.png" alt="Veltrix Logo" class="logo" />
         <span class="brand-name">Veltrix IDE</span>
       </a>
+
       <ul class="nav-links" role="menubar">
-        <li role="none"><a href="index.html" role="menuitem">Home</a></li>
-        <li role="none"><a href="about.html" role="menuitem">About</a></li>
+        <li role="none"><a href="index.html"    role="menuitem">Home</a></li>
+        <li role="none"><a href="about.html"    role="menuitem">About</a></li>
         <li role="none"><a href="tutorials.html" role="menuitem">Tutorials</a></li>
-        <li role="none"><a href="lab.html" role="menuitem" class="active">Lab</a></li>
+        <li role="none"><a href="lab.html"      role="menuitem" class="active">Lab</a></li>
       </ul>
+
       <div class="nav-right">
+        <!-- Theme selector -->
         <div class="theme-selector">
           <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1"  x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22"  x2="5.64"  y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1"  y1="12" x2="3"  y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+              <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
             </svg>
             <span class="theme-label">Aquatic</span>
           </button>
-          <div class="theme-dropdown" role="listbox"></div>
+          <div class="theme-dropdown" role="listbox" aria-label="Themes"></div>
         </div>
+
+        <!-- Logged-out buttons -->
         <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
-          <button class="btn-ghost" data-open-modal="modal-login">Sign In</button>
+          <button class="btn-ghost"  data-open-modal="modal-login">Sign In</button>
           <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
         </div>
+
+        <!-- Logged-in user pill -->
         <div id="user-group" style="display:none;align-items:center;gap:8px;">
           <div class="user-pill">
             <div class="user-avatar" id="nav-avatar">U</div>
-            <span class="user-name" id="nav-username">User</span>
+            <span class="user-name"  id="nav-username">User</span>
           </div>
           <button class="btn-logout" id="logout-btn">Logout</button>
         </div>
       </div>
+
     </div>
   </nav>
 
-  <!-- ════ GATE: shown when NOT logged in ════ -->
+  <!-- ════════════════════════════════════════
+       GATE — shown when NOT logged in
+       ════════════════════════════════════════ -->
   <div id="lab-gate" class="lab-gate" role="main" aria-live="polite">
     <div class="lab-gate-inner">
       <div class="lock-glyph" aria-hidden="true">🔒</div>
       <h2>Sign in to access the Lab</h2>
-      <p>The Veltrix IDE Lab is available to registered users. Create a free account or sign in to start coding.</p>
+      <p>The Veltrix IDE Lab is available to registered users.<br>Create a free account or sign in to start coding.</p>
       <div class="lab-gate-actions">
         <button class="btn btn-primary" data-open-modal="modal-login">Sign In</button>
         <button class="btn btn-outline" data-open-modal="modal-signup">Create Free Account</button>
@@ -86,88 +494,81 @@
     </div>
   </div>
 
-  <!-- ════ IDE: shown when logged in ════ -->
-  <div id="ide-wrap" class="ide-wrap" role="main" aria-label="Veltrix Cloud IDE">
+  <!-- ════════════════════════════════════════
+       IDE — shown when logged in
+       ════════════════════════════════════════ -->
+  <div id="ide-wrap" class="ide-wrap" aria-label="Veltrix Cloud IDE">
 
-    <!-- Left: File Explorer -->
+    <!-- LEFT: File Explorer Sidebar -->
     <aside class="ide-sidebar" aria-label="File Explorer">
+
       <div class="sidebar-head">
         <span class="sidebar-title">Explorer</span>
-        <div class="sidebar-actions">
-          <button class="side-btn" id="btn-add-file" title="Add new file" aria-label="Add file">＋ File</button>
-          <button class="side-btn" id="btn-add-folder" title="Add new folder" aria-label="Add folder">＋ Dir</button>
+        <div class="sidebar-btns">
+          <button class="side-action-btn" id="btn-add-file" title="Add new file" aria-label="Add new file">
+            + File
+          </button>
+          <button class="side-action-btn" id="btn-add-folder" title="Add new folder" aria-label="Add new folder">
+            + Dir
+          </button>
         </div>
       </div>
+
+      <!-- File tree — rendered by JS -->
       <div class="file-tree" id="file-tree" role="tree" aria-label="Project files">
-        <div class="tree-folder"><span aria-hidden="true">📁</span> project/</div>
-        <div class="tree-file active" data-file="html" role="treeitem" tabindex="0" aria-selected="true"><span aria-hidden="true">📄</span> index.html</div>
-        <div class="tree-file" data-file="css" role="treeitem" tabindex="0" aria-selected="false"><span aria-hidden="true">🎨</span> style.css</div>
-        <div class="tree-file" data-file="js" role="treeitem" tabindex="0" aria-selected="false"><span aria-hidden="true">⚙</span> script.js</div>
+        <div class="tree-empty">Loading...</div>
       </div>
+
     </aside>
 
-    <!-- Center: Editor -->
+    <!-- CENTER: Editor panel -->
     <div class="ide-editor-panel">
-      <div class="ide-tabs" role="tablist" aria-label="Code editor tabs">
-        <button class="ide-tab active" role="tab" aria-selected="true" data-tab="html">index.html</button>
-        <button class="ide-tab" role="tab" aria-selected="false" data-tab="css">style.css</button>
-        <button class="ide-tab" role="tab" aria-selected="false" data-tab="js">script.js</button>
+
+      <!-- Tab bar — rendered by JS -->
+      <div class="ide-tab-bar" id="ide-tab-bar" role="tablist" aria-label="Open files">
+        <span class="tab-placeholder">No open files</span>
       </div>
-      <div class="editor-area">
-        <textarea
-          class="code-editor active"
-          id="editor-html"
-          role="textbox"
-          aria-label="HTML code editor"
-          aria-multiline="true"
-          spellcheck="false"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-        ></textarea>
-        <textarea
-          class="code-editor"
-          id="editor-css"
-          role="textbox"
-          aria-label="CSS code editor"
-          aria-multiline="true"
-          spellcheck="false"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-        ></textarea>
-        <textarea
-          class="code-editor"
-          id="editor-js"
-          role="textbox"
-          aria-label="JavaScript code editor"
-          aria-multiline="true"
-          spellcheck="false"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-        ></textarea>
-      </div>
-      <div class="ide-statusbar" aria-label="Editor status bar">
+
+      <!-- Single shared code editor -->
+      <textarea
+        id="ide-code-editor"
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        aria-label="Code editor"
+        aria-multiline="true"
+        role="textbox"
+        placeholder="Select a file to edit"
+        disabled
+      ></textarea>
+
+      <!-- Status bar -->
+      <div class="ide-statusbar" aria-label="Editor status">
         <span>Veltrix IDE</span>
-        <span id="status-lang">HTML</span>
+        <div class="statusbar-sep" aria-hidden="true"></div>
+        <span id="status-file">—</span>
+        <div class="statusbar-sep" aria-hidden="true"></div>
+        <span id="status-lang">—</span>
+        <div class="statusbar-sep" aria-hidden="true"></div>
         <span>UTF-8</span>
-        <span>Spaces: 2</span>
       </div>
+
     </div>
 
-    <!-- Right: Live Preview -->
-    <div class="ide-preview" aria-label="Live preview panel">
+    <!-- RIGHT: Live Preview -->
+    <div class="ide-preview" aria-label="Live preview">
       <div class="preview-head">
         <span class="preview-title">Live Preview</span>
-        <button class="preview-refresh" id="btn-refresh" aria-label="Refresh preview">↺ Refresh</button>
+        <button class="preview-refresh" id="btn-refresh" aria-label="Refresh preview">
+          ↺ Refresh
+        </button>
       </div>
       <iframe
         class="preview-frame"
         id="preview-frame"
-        title="Live preview output"
+        title="Live preview"
         sandbox="allow-scripts allow-modals allow-forms"
-        aria-live="polite"
       ></iframe>
     </div>
 
@@ -175,10 +576,12 @@
 
 </div><!-- /lab-page -->
 
-<!-- LOGIN MODAL -->
+<!-- ════════════════════════════════════════
+     LOGIN MODAL
+     ════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
   <div class="modal-box">
-    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <button class="modal-close-btn" aria-label="Close login">&times;</button>
     <div class="modal-heading">
       <h2 id="login-title">Welcome back</h2>
       <p>Sign in to your Veltrix account</p>
@@ -186,11 +589,11 @@
     <form id="form-login" novalidate autocomplete="off">
       <div class="form-field">
         <label for="login-username">Username</label>
-        <input type="text" id="login-username" name="username" placeholder="yourhandle" autocomplete="username" required />
+        <input type="text"     id="login-username" name="username" placeholder="yourhandle"  autocomplete="username"         required />
       </div>
       <div class="form-field">
         <label for="login-password">Password</label>
-        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+        <input type="password" id="login-password" name="password" placeholder="••••••••"   autocomplete="current-password" required />
       </div>
       <div class="form-error" id="err-login"></div>
       <button type="submit" class="btn btn-primary form-submit">Sign In</button>
@@ -199,10 +602,12 @@
   </div>
 </div>
 
-<!-- SIGNUP MODAL -->
+<!-- ════════════════════════════════════════
+     SIGNUP MODAL
+     ════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
   <div class="modal-box">
-    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <button class="modal-close-btn" aria-label="Close signup">&times;</button>
     <div class="modal-heading">
       <h2 id="signup-title">Create account</h2>
       <p>Join Veltrix IDE — it's completely free</p>
@@ -210,19 +615,19 @@
     <form id="form-signup" novalidate autocomplete="off">
       <div class="form-field">
         <label for="signup-fullname">Full Name</label>
-        <input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" autocomplete="name" required />
+        <input type="text"     id="signup-fullname" name="fullname" placeholder="Jane Doe"             autocomplete="name"          required />
       </div>
       <div class="form-field">
         <label for="signup-username">Username</label>
-        <input type="text" id="signup-username" name="username" placeholder="janedoe" autocomplete="username" required />
+        <input type="text"     id="signup-username" name="username" placeholder="janedoe"              autocomplete="username"      required />
       </div>
       <div class="form-field">
         <label for="signup-email">Email</label>
-        <input type="email" id="signup-email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+        <input type="email"    id="signup-email"    name="email"    placeholder="jane@example.com"     autocomplete="email"         required />
       </div>
       <div class="form-field">
         <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password" required />
+        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password"  required />
       </div>
       <div class="form-error" id="err-signup"></div>
       <button type="submit" class="btn btn-primary form-submit">Create Account</button>
