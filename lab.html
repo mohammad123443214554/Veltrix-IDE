@@ -3,238 +3,234 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
   <title>Lab — Veltrix IDE</title>
-  <meta name="description" content="Veltrix IDE Lab — Cloud code editor with live preview. Sign in to start coding." />
+  <meta name="description" content="Veltrix IDE Lab: a full cloud code editor with live preview. Sign in to start building HTML, CSS, and JavaScript projects." />
   <meta name="author" content="Mohammad Khan" />
-  <meta property="og:title" content="Lab — Veltrix IDE" />
-  <meta property="og:description" content="Cloud IDE with live HTML, CSS and JavaScript editing." />
+  <meta name="robots" content="noindex" />
+
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a0a0a" />
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+
   <style>
-    body { overflow: hidden; }
-    .lab-page { height: 100vh; display: flex; flex-direction: column; }
+    /* Lab page overrides: full-height, no scroll */
+    html, body { height: 100%; overflow: hidden; }
+    .lab-page  { height: 100%; overflow: hidden; }
   </style>
+
+  <!-- Instant theme -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('veltrix_theme') || 'aquatic';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
 <body>
 
 <div class="lab-page">
 
-<!-- ======= NAVBAR ======= -->
-<nav class="navbar" role="navigation" aria-label="Main navigation">
-  <div class="navbar-inner">
-    <a href="index.html" class="nav-logo" aria-label="Veltrix IDE home">
-      <div class="logo-icon" aria-hidden="true">
-        <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 5l4 5-4 5h2.5l4-5-4-5H3zm7.5 0l4 5-4 5H13l4-5-4-5h-2.5z"/>
-        </svg>
-      </div>
-      Veltrix IDE
-    </a>
-
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="tutorials.html">Tutorials</a></li>
-      <li><a href="lab.html" class="active">Lab</a></li>
-    </ul>
-
-    <div class="nav-right">
-      <div class="theme-selector">
-        <button class="theme-btn" aria-label="Select theme">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-          <span class="theme-label">Aquatic</span>
-        </button>
-        <div class="theme-dropdown"></div>
-      </div>
-      <div id="auth-btns" style="display:flex;gap:0.5rem;align-items:center;">
-        <button class="btn-nav btn-outline" data-modal="login">Sign In</button>
-        <button class="btn-nav btn-solid" data-modal="signup">Get Started</button>
-      </div>
-      <div id="user-info" style="display:none;align-items:center;gap:0.5rem;">
-        <div class="user-pill">
-          <div class="user-avatar" id="nav-avatar">U</div>
-          <span id="nav-username">User</span>
+  <!-- NAVBAR -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Veltrix IDE — Home">
+        <img src="logo.png" alt="Veltrix Logo" class="logo" />
+        <span class="brand-name">Veltrix IDE</span>
+      </a>
+      <ul class="nav-links" role="menubar">
+        <li role="none"><a href="index.html" role="menuitem">Home</a></li>
+        <li role="none"><a href="about.html" role="menuitem">About</a></li>
+        <li role="none"><a href="tutorials.html" role="menuitem">Tutorials</a></li>
+        <li role="none"><a href="lab.html" role="menuitem" class="active">Lab</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="theme-selector">
+          <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <span class="theme-label">Aquatic</span>
+          </button>
+          <div class="theme-dropdown" role="listbox"></div>
         </div>
-        <button class="btn-logout" id="logout-btn">Sign out</button>
+        <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
+          <button class="btn-ghost" data-open-modal="modal-login">Sign In</button>
+          <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
+        </div>
+        <div id="user-group" style="display:none;align-items:center;gap:8px;">
+          <div class="user-pill">
+            <div class="user-avatar" id="nav-avatar">U</div>
+            <span class="user-name" id="nav-username">User</span>
+          </div>
+          <button class="btn-logout" id="logout-btn">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════ GATE: shown when NOT logged in ════ -->
+  <div id="lab-gate" class="lab-gate" role="main" aria-live="polite">
+    <div class="lab-gate-inner">
+      <div class="lock-glyph" aria-hidden="true">🔒</div>
+      <h2>Sign in to access the Lab</h2>
+      <p>The Veltrix IDE Lab is available to registered users. Create a free account or sign in to start coding.</p>
+      <div class="lab-gate-actions">
+        <button class="btn btn-primary" data-open-modal="modal-login">Sign In</button>
+        <button class="btn btn-outline" data-open-modal="modal-signup">Create Free Account</button>
       </div>
     </div>
   </div>
-</nav>
 
-<!-- ======= LOCKED STATE ======= -->
-<div id="lab-locked" class="lab-locked" aria-live="polite" role="main">
-  <div class="lab-locked-inner">
-    <div class="lock-icon" aria-hidden="true">🔒</div>
-    <h2>Access Restricted</h2>
-    <p>Please sign in to access the Lab and start coding in the cloud.</p>
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-      <button class="btn btn-primary" data-modal="login">Sign In</button>
-      <button class="btn btn-secondary" data-modal="signup">Create Account</button>
-    </div>
-  </div>
-</div>
+  <!-- ════ IDE: shown when logged in ════ -->
+  <div id="ide-wrap" class="ide-wrap" role="main" aria-label="Veltrix Cloud IDE">
 
-<!-- ======= LAB IDE (visible after login) ======= -->
-<div id="lab-ide" class="lab-ide" role="main" aria-label="Cloud IDE">
+    <!-- Left: File Explorer -->
+    <aside class="ide-sidebar" aria-label="File Explorer">
+      <div class="sidebar-head">
+        <span class="sidebar-title">Explorer</span>
+        <div class="sidebar-actions">
+          <button class="side-btn" id="btn-add-file" title="Add new file" aria-label="Add file">＋ File</button>
+          <button class="side-btn" id="btn-add-folder" title="Add new folder" aria-label="Add folder">＋ Dir</button>
+        </div>
+      </div>
+      <div class="file-tree" id="file-tree" role="tree" aria-label="Project files">
+        <div class="tree-folder"><span aria-hidden="true">📁</span> project/</div>
+        <div class="tree-file active" data-file="html" role="treeitem" tabindex="0" aria-selected="true"><span aria-hidden="true">📄</span> index.html</div>
+        <div class="tree-file" data-file="css" role="treeitem" tabindex="0" aria-selected="false"><span aria-hidden="true">🎨</span> style.css</div>
+        <div class="tree-file" data-file="js" role="treeitem" tabindex="0" aria-selected="false"><span aria-hidden="true">⚙</span> script.js</div>
+      </div>
+    </aside>
 
-  <!-- Sidebar: File Explorer -->
-  <aside class="ide-sidebar" aria-label="File explorer">
-    <div class="sidebar-header">
-      Explorer
-      <div class="sidebar-actions">
-        <button class="sidebar-btn" id="add-file-btn" title="New file" aria-label="Add file">+ File</button>
-        <button class="sidebar-btn" id="add-folder-btn" title="New folder" aria-label="Add folder">+ Dir</button>
+    <!-- Center: Editor -->
+    <div class="ide-editor-panel">
+      <div class="ide-tabs" role="tablist" aria-label="Code editor tabs">
+        <button class="ide-tab active" role="tab" aria-selected="true" data-tab="html">index.html</button>
+        <button class="ide-tab" role="tab" aria-selected="false" data-tab="css">style.css</button>
+        <button class="ide-tab" role="tab" aria-selected="false" data-tab="js">script.js</button>
+      </div>
+      <div class="editor-area">
+        <textarea
+          class="code-editor active"
+          id="editor-html"
+          role="textbox"
+          aria-label="HTML code editor"
+          aria-multiline="true"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        ></textarea>
+        <textarea
+          class="code-editor"
+          id="editor-css"
+          role="textbox"
+          aria-label="CSS code editor"
+          aria-multiline="true"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        ></textarea>
+        <textarea
+          class="code-editor"
+          id="editor-js"
+          role="textbox"
+          aria-label="JavaScript code editor"
+          aria-multiline="true"
+          spellcheck="false"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+        ></textarea>
+      </div>
+      <div class="ide-statusbar" aria-label="Editor status bar">
+        <span>Veltrix IDE</span>
+        <span id="status-lang">HTML</span>
+        <span>UTF-8</span>
+        <span>Spaces: 2</span>
       </div>
     </div>
-    <div class="file-tree" id="file-tree" role="tree" aria-label="Project files">
-      <div class="folder-item">
-        <span class="file-icon" aria-hidden="true">📁</span> project/
-      </div>
-      <div class="file-item active" tabindex="0" role="treeitem" aria-selected="true" data-file="html">
-        <span class="file-icon" aria-hidden="true">📄</span> index.html
-      </div>
-      <div class="file-item" tabindex="0" role="treeitem" aria-selected="false" data-file="css">
-        <span class="file-icon" aria-hidden="true">🎨</span> style.css
-      </div>
-      <div class="file-item" tabindex="0" role="treeitem" aria-selected="false" data-file="js">
-        <span class="file-icon" aria-hidden="true">⚙</span> script.js
-      </div>
-    </div>
-  </aside>
 
-  <!-- Main Editor -->
-  <div class="ide-main">
-    <div class="ide-tabs" role="tablist" aria-label="Editor tabs">
-      <button class="ide-tab active" role="tab" aria-selected="true" aria-controls="editor-html" data-tab="html">index.html</button>
-      <button class="ide-tab" role="tab" aria-selected="false" aria-controls="editor-css" data-tab="css">style.css</button>
-      <button class="ide-tab" role="tab" aria-selected="false" aria-controls="editor-js" data-tab="js">script.js</button>
+    <!-- Right: Live Preview -->
+    <div class="ide-preview" aria-label="Live preview panel">
+      <div class="preview-head">
+        <span class="preview-title">Live Preview</span>
+        <button class="preview-refresh" id="btn-refresh" aria-label="Refresh preview">↺ Refresh</button>
+      </div>
+      <iframe
+        class="preview-frame"
+        id="preview-frame"
+        title="Live preview output"
+        sandbox="allow-scripts allow-modals allow-forms"
+        aria-live="polite"
+      ></iframe>
     </div>
-    <div class="ide-editor-area">
-      <textarea
-        class="ide-editor active"
-        id="editor-html"
-        role="textbox"
-        aria-label="HTML editor"
-        aria-multiline="true"
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-      ></textarea>
-      <textarea
-        class="ide-editor"
-        id="editor-css"
-        role="textbox"
-        aria-label="CSS editor"
-        aria-multiline="true"
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-      ></textarea>
-      <textarea
-        class="ide-editor"
-        id="editor-js"
-        role="textbox"
-        aria-label="JavaScript editor"
-        aria-multiline="true"
-        spellcheck="false"
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-      ></textarea>
-    </div>
-    <div class="ide-status" aria-label="Status bar">
-      <span>Veltrix IDE</span>
-      <span id="status-lang">HTML</span>
-      <span>UTF-8</span>
-      <span>LF</span>
-    </div>
-  </div>
 
-  <!-- Preview Panel -->
-  <div class="ide-preview" aria-label="Live preview">
-    <div class="preview-header">
-      Live Preview
-      <button class="preview-refresh" id="refresh-preview" aria-label="Refresh preview">↺ Refresh</button>
-    </div>
-    <iframe
-      class="preview-frame"
-      id="live-preview"
-      title="Live preview"
-      sandbox="allow-scripts allow-modals"
-    ></iframe>
-  </div>
+  </div><!-- /ide-wrap -->
 
-</div><!-- /lab-ide -->
 </div><!-- /lab-page -->
 
 <!-- LOGIN MODAL -->
-<div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-heading">
-  <div class="modal" style="position:relative;">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-header">
-      <h2 id="login-heading">Welcome back</h2>
+<div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="login-title">Welcome back</h2>
       <p>Sign in to your Veltrix account</p>
     </div>
-    <form id="login-form" novalidate>
-      <div class="form-group"><label for="login-username">Username</label><input type="text" id="login-username" name="username" placeholder="yourhandle" required /></div>
-      <div class="form-group"><label for="login-password">Password</label><input type="password" id="login-password" name="password" placeholder="••••••••" required /></div>
-      <p class="modal-error" id="login-error"></p>
-      <button type="submit" class="btn btn-primary modal-submit">Sign In</button>
+    <form id="form-login" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="username" placeholder="yourhandle" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <div class="form-error" id="err-login"></div>
+      <button type="submit" class="btn btn-primary form-submit">Sign In</button>
     </form>
-    <p class="modal-switch">Don't have an account? <a data-modal="signup">Create one</a></p>
+    <p class="modal-footer">No account? <a data-open-modal="modal-signup">Create one free</a></p>
   </div>
 </div>
 
 <!-- SIGNUP MODAL -->
-<div class="modal-overlay" id="signup-modal" role="dialog" aria-modal="true" aria-labelledby="signup-heading">
-  <div class="modal" style="position:relative;">
-    <button class="modal-close" aria-label="Close">&times;</button>
-    <div class="modal-header">
-      <h2 id="signup-heading">Create account</h2>
-      <p>Join Veltrix IDE — it's free</p>
+<div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="signup-title">Create account</h2>
+      <p>Join Veltrix IDE — it's completely free</p>
     </div>
-    <form id="signup-form" novalidate>
-      <div class="form-group"><label for="signup-fullname">Full Name</label><input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" required /></div>
-      <div class="form-group"><label for="signup-username">Username</label><input type="text" id="signup-username" name="username" placeholder="janedoe" required /></div>
-      <div class="form-group"><label for="signup-email">Email</label><input type="email" id="signup-email" name="email" placeholder="jane@example.com" required /></div>
-      <div class="form-group"><label for="signup-password">Password</label><input type="password" id="signup-password" name="password" placeholder="Min. 6 characters" required /></div>
-      <p class="modal-error" id="signup-error"></p>
-      <button type="submit" class="btn btn-primary modal-submit">Create Account</button>
+    <form id="form-signup" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="signup-fullname">Full Name</label>
+        <input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" autocomplete="name" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="username" placeholder="janedoe" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password" required />
+      </div>
+      <div class="form-error" id="err-signup"></div>
+      <button type="submit" class="btn btn-primary form-submit">Create Account</button>
     </form>
-    <p class="modal-switch">Already have an account? <a data-modal="login">Sign in</a></p>
+    <p class="modal-footer">Already have an account? <a data-open-modal="modal-login">Sign in</a></p>
   </div>
 </div>
 
 <script src="script.js"></script>
-<script>
-  // File tree click → switch tab
-  document.querySelectorAll('.file-item[data-file]').forEach(item => {
-    item.addEventListener('click', () => {
-      const tab = item.dataset.file;
-      document.querySelectorAll('.file-item').forEach(f => {
-        f.classList.remove('active');
-        f.setAttribute('aria-selected', 'false');
-      });
-      item.classList.add('active');
-      item.setAttribute('aria-selected', 'true');
-      document.querySelectorAll('.ide-tab').forEach(t => {
-        const isMatch = t.dataset.tab === tab;
-        t.classList.toggle('active', isMatch);
-        t.setAttribute('aria-selected', isMatch ? 'true' : 'false');
-      });
-      document.querySelectorAll('.ide-editor').forEach(e => {
-        e.classList.toggle('active', e.id === 'editor-' + tab);
-      });
-      // Update status bar
-      const langs = { html: 'HTML', css: 'CSS', js: 'JavaScript' };
-      const statusLang = document.getElementById('status-lang');
-      if (statusLang) statusLang.textContent = langs[tab] || tab.toUpperCase();
-    });
-  });
-</script>
 </body>
 </html>
