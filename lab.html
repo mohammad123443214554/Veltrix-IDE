@@ -11,409 +11,12 @@
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="stylesheet" href="style.css" />
 
-  <style>
-    /* ── Lab page: full viewport, no scroll ── */
-    html, body { height: 100%; overflow: hidden; }
-
-    .lab-page {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* ── IDE wrapper ── */
-    .ide-wrap {
-      display: none;
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
-    }
-    .ide-wrap.visible { display: flex; }
-
-    /* ── Sidebar ── */
-    .ide-sidebar {
-      width: 230px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      border-right: 1px solid var(--border);
-      background: var(--bg-alt);
-      overflow: hidden;
-    }
-
-    .sidebar-head {
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 10px 0 14px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-alt);
-      flex-shrink: 0;
-    }
-
-    .sidebar-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .sidebar-btns {
-      display: flex;
-      gap: 4px;
-    }
-
-    .side-action-btn {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      height: 24px;
-      padding: 0 8px;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-3);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: color 0.12s, border-color 0.12s, background 0.12s;
-    }
-    .side-action-btn:hover {
-      color: var(--text-1);
-      border-color: var(--border-strong);
-      background: var(--bg-hover);
-    }
-
-    /* ── File tree ── */
-    .file-tree {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 4px 0;
-    }
-
-    .tree-empty {
-      padding: 20px 14px;
-      font-size: 12px;
-      color: var(--text-3);
-      font-family: 'JetBrains Mono', monospace;
-      line-height: 1.6;
-    }
-
-    /* ── Tree row (file or folder) ── */
-    .tree-row {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 0 8px 0 14px;
-      height: 30px;
-      position: relative;
-      transition: background 0.1s;
-      user-select: none;
-    }
-
-    .tree-file-row {
-      cursor: pointer;
-    }
-    .tree-file-row:hover { background: var(--bg-hover); }
-    .tree-file-row:hover .tree-menu-btn { opacity: 1; }
-    .tree-file-row.active { background: var(--bg-hover); }
-    .tree-file-row.active .tree-name { color: var(--text-1); font-weight: 600; }
-    .tree-file-row:focus-visible { outline: 2px solid var(--border-strong); outline-offset: -2px; }
-
-    .tree-folder-row { cursor: default; }
-    .tree-folder-row:hover { background: var(--bg-hover); }
-    .tree-folder-row:hover .tree-menu-btn { opacity: 1; }
-
-    .tree-icon {
-      font-size: 13px;
-      flex-shrink: 0;
-      line-height: 1;
-    }
-
-    .tree-name {
-      flex: 1;
-      font-size: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-2);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 0;
-    }
-
-    /* ── 3-dot menu button ── */
-    .tree-menu-btn {
-      flex-shrink: 0;
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border: none;
-      border-radius: 4px;
-      color: var(--text-3);
-      font-size: 16px;
-      line-height: 1;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.1s, background 0.1s, color 0.1s;
-      padding: 0;
-    }
-    .tree-menu-btn:hover {
-      background: var(--border);
-      color: var(--text-1);
-      opacity: 1 !important;
-    }
-    /* Always visible on active row */
-    .tree-file-row.active .tree-menu-btn { opacity: 0.5; }
-    .tree-file-row.active .tree-menu-btn:hover { opacity: 1; }
-
-    /* ── Context menu (3-dot dropdown) ── */
-    .tree-context-menu {
-      position: fixed;
-      z-index: 9999;
-      min-width: 160px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      box-shadow: var(--shadow-lg);
-      padding: 4px;
-      animation: ctxFadeIn 0.1s ease;
-    }
-
-    @keyframes ctxFadeIn {
-      from { opacity: 0; transform: scale(0.96) translateY(-4px); }
-      to   { opacity: 1; transform: scale(1)    translateY(0);    }
-    }
-
-    .ctx-item {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      width: 100%;
-      padding: 7px 10px;
-      background: transparent;
-      border: none;
-      border-radius: 5px;
-      font-size: 13px;
-      font-family: 'Inter', sans-serif;
-      color: var(--text-2);
-      cursor: pointer;
-      text-align: left;
-      transition: background 0.1s, color 0.1s;
-    }
-    .ctx-item:hover {
-      background: var(--bg-hover);
-      color: var(--text-1);
-    }
-    .ctx-item.ctx-danger { color: #b94040; }
-    .ctx-item.ctx-danger:hover { background: rgba(185,64,64,0.08); color: #b94040; }
-
-    .ctx-divider {
-      height: 1px;
-      background: var(--border);
-      margin: 3px 4px;
-    }
-
-    /* ── Editor panel (center) ── */
-    .ide-editor-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      overflow: hidden;
-      background: var(--bg-card);
-    }
-
-    /* ── Tab bar ── */
-    .ide-tab-bar {
-      display: flex;
-      height: 38px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-alt);
-      overflow-x: auto;
-      overflow-y: hidden;
-      flex-shrink: 0;
-      scrollbar-width: none;
-    }
-    .ide-tab-bar::-webkit-scrollbar { display: none; }
-
-    .ide-tab {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 100%;
-      padding: 0 14px;
-      border: none;
-      border-right: 1px solid var(--border);
-      background: transparent;
-      font-size: 12px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-3);
-      cursor: pointer;
-      white-space: nowrap;
-      max-width: 180px;
-      transition: background 0.1s, color 0.1s;
-    }
-    .ide-tab:hover { background: var(--bg-hover); color: var(--text-2); }
-    .ide-tab.active {
-      background: var(--bg-card);
-      color: var(--text-1);
-      font-weight: 600;
-    }
-
-    .tab-name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .tab-close {
-      flex-shrink: 0;
-      width: 16px;
-      height: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 3px;
-      font-size: 14px;
-      line-height: 1;
-      color: var(--text-3);
-      transition: background 0.1s, color 0.1s;
-    }
-    .tab-close:hover {
-      background: var(--border);
-      color: var(--text-1);
-    }
-
-    .tab-placeholder {
-      display: flex;
-      align-items: center;
-      padding: 0 14px;
-      font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-3);
-    }
-
-    /* ── Single code editor ── */
-    #ide-code-editor {
-      flex: 1;
-      width: 100%;
-      min-height: 0;
-      display: block;
-      background: var(--bg-card);
-      color: var(--text-1);
-      border: none;
-      outline: none;
-      padding: 16px 18px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      line-height: 1.75;
-      resize: none;
-      tab-size: 2;
-      overflow: auto;
-      transition: background 0.2s;
-    }
-    #ide-code-editor:disabled {
-      background: var(--bg-alt);
-      cursor: not-allowed;
-      color: var(--text-3);
-    }
-
-    /* ── Status bar ── */
-    .ide-statusbar {
-      height: 24px;
-      display: flex;
-      align-items: center;
-      padding: 0 14px;
-      gap: 16px;
-      background: var(--bg-alt);
-      border-top: 1px solid var(--border);
-      flex-shrink: 0;
-      font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-3);
-    }
-
-    .statusbar-sep {
-      width: 1px;
-      height: 12px;
-      background: var(--border);
-    }
-
-    /* ── Preview panel ── */
-    .ide-preview {
-      width: 380px;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      border-left: 1px solid var(--border);
-    }
-
-    .preview-head {
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 12px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-alt);
-      flex-shrink: 0;
-    }
-
-    .preview-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .preview-refresh {
-      height: 24px;
-      padding: 0 9px;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-3);
-      cursor: pointer;
-      transition: color 0.12s, border-color 0.12s;
-    }
-    .preview-refresh:hover {
-      color: var(--text-1);
-      border-color: var(--border-strong);
-    }
-
-    .preview-frame {
-      flex: 1;
-      border: none;
-      background: #ffffff;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 1024px) {
-      .ide-preview { display: none; }
-    }
-    @media (max-width: 640px) {
-      .ide-sidebar { width: 0; overflow: hidden; display: none; }
-    }
-  </style>
-
-  <!-- Instant theme — no flash -->
+  <!-- Instant theme — prevents flash -->
   <script>
     (function () {
       var t = localStorage.getItem('veltrix_theme') || 'aquatic';
       document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.classList.add('lab-page-html');
     })();
   </script>
 </head>
@@ -421,9 +24,9 @@
 
 <div class="lab-page">
 
-  <!-- ════════════════════════════════════════
+  <!-- =====================================================
        NAVBAR
-       ════════════════════════════════════════ -->
+       ===================================================== -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
 
@@ -433,40 +36,38 @@
       </a>
 
       <ul class="nav-links" role="menubar">
-        <li role="none"><a href="index.html"    role="menuitem">Home</a></li>
-        <li role="none"><a href="about.html"    role="menuitem">About</a></li>
-        <li role="none"><a href="tutorials.html" role="menuitem">Tutorials</a></li>
-        <li role="none"><a href="lab.html"      role="menuitem" class="active">Lab</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tutorials.html">Tutorials</a></li>
+        <li><a href="lab.html" class="active">Lab</a></li>
       </ul>
 
       <div class="nav-right">
-        <!-- Theme selector -->
+
         <div class="theme-selector">
           <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
+                 stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
               <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1"  x2="12" y2="3"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
               <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22"  x2="5.64"  y2="5.64"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
               <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1"  y1="12" x2="3"  y2="12"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
               <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
-              <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
             <span class="theme-label">Aquatic</span>
           </button>
-          <div class="theme-dropdown" role="listbox" aria-label="Themes"></div>
+          <div class="theme-dropdown" role="listbox"></div>
         </div>
 
-        <!-- Logged-out buttons -->
         <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
           <button class="btn-ghost"  data-open-modal="modal-login">Sign In</button>
           <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
         </div>
 
-        <!-- Logged-in user pill -->
         <div id="user-group" style="display:none;align-items:center;gap:8px;">
           <div class="user-pill">
             <div class="user-avatar" id="nav-avatar">U</div>
@@ -474,14 +75,14 @@
           </div>
           <button class="btn-logout" id="logout-btn">Logout</button>
         </div>
-      </div>
 
+      </div>
     </div>
   </nav>
 
-  <!-- ════════════════════════════════════════
+  <!-- =====================================================
        GATE — shown when NOT logged in
-       ════════════════════════════════════════ -->
+       ===================================================== -->
   <div id="lab-gate" class="lab-gate" role="main" aria-live="polite">
     <div class="lab-gate-inner">
       <div class="lock-glyph" aria-hidden="true">🔒</div>
@@ -494,42 +95,69 @@
     </div>
   </div>
 
-  <!-- ════════════════════════════════════════
+  <!-- =====================================================
        IDE — shown when logged in
-       ════════════════════════════════════════ -->
+       ===================================================== -->
   <div id="ide-wrap" class="ide-wrap" aria-label="Veltrix Cloud IDE">
 
-    <!-- LEFT: File Explorer Sidebar -->
+    <!-- ── LEFT: File Explorer ── -->
     <aside class="ide-sidebar" aria-label="File Explorer">
 
-      <div class="sidebar-head">
-        <span class="sidebar-title">Explorer</span>
-        <div class="sidebar-btns">
-          <button class="side-action-btn" id="btn-add-file" title="Add new file" aria-label="Add new file">
+      <div class="sidebar-toolbar">
+        <span class="sidebar-label">Explorer</span>
+        <div class="sidebar-actions">
+
+          <button class="sb-btn" id="btn-add-file" title="New file" aria-label="Add new file">
+            <svg viewBox="0 0 16 16" fill="currentColor">
+              <path d="M9 1H3a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V5L9 1zm0 1.5L12.5 5H9V2.5z"/>
+              <path d="M8 7v2H6v1h2v2h1v-2h2V9H9V7H8z"/>
+            </svg>
             + File
           </button>
-          <button class="side-action-btn" id="btn-add-folder" title="Add new folder" aria-label="Add new folder">
+
+          <button class="sb-btn" id="btn-add-folder" title="New folder" aria-label="Add new folder">
+            <svg viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 3.5A1.5 1.5 0 012.5 2h3.272a1.5 1.5 0 011.06.44L8 3.5H13.5A1.5 1.5 0 0115 5v6.5a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 011 11.5v-8zM8 6.5v2H6v1h2v2h1v-2h2v-1H9v-2H8z"/>
+            </svg>
             + Dir
           </button>
+
+          <button class="sb-btn" id="btn-upload" title="Upload file" aria-label="Upload file">
+            <svg viewBox="0 0 16 16" fill="currentColor">
+              <path d="M.5 9.9a.5.5 0 01.5.5v2.5a1 1 0 001 1h12a1 1 0 001-1v-2.5a.5.5 0 011 0v2.5a2 2 0 01-2 2H2a2 2 0 01-2-2v-2.5a.5.5 0 01.5-.5z"/>
+              <path d="M7.646 1.146a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8.5 2.707V11.5a.5.5 0 01-1 0V2.707L5.354 4.854a.5.5 0 11-.708-.708l3-3z"/>
+            </svg>
+            Upload
+          </button>
+
+          <!-- Hidden file input for upload -->
+          <input
+            type="file"
+            id="upload-input"
+            multiple
+            accept=".html,.htm,.css,.js,.mjs,.ts,.txt,.json,.md,.png,.jpg,.jpeg,.svg,.gif,.webp,.bmp"
+            aria-hidden="true"
+          />
+
         </div>
       </div>
 
-      <!-- File tree — rendered by JS -->
+      <!-- File tree (rendered by JS) -->
       <div class="file-tree" id="file-tree" role="tree" aria-label="Project files">
-        <div class="tree-empty">Loading...</div>
+        <div class="tree-empty">Loading…</div>
       </div>
 
     </aside>
 
-    <!-- CENTER: Editor panel -->
+    <!-- ── CENTER: Editor Panel ── -->
     <div class="ide-editor-panel">
 
-      <!-- Tab bar — rendered by JS -->
+      <!-- Tab bar (rendered by JS) -->
       <div class="ide-tab-bar" id="ide-tab-bar" role="tablist" aria-label="Open files">
-        <span class="tab-placeholder">No open files</span>
+        <span class="tab-bar-empty">No open files</span>
       </div>
 
-      <!-- Single shared code editor -->
+      <!-- Code editor textarea -->
       <textarea
         id="ide-code-editor"
         spellcheck="false"
@@ -543,21 +171,26 @@
         disabled
       ></textarea>
 
+      <!-- Image preview (shown for image files) -->
+      <div id="ide-image-preview" aria-label="Image preview" role="img">
+        <img id="ide-preview-img" src="" alt="Uploaded image preview" />
+      </div>
+
       <!-- Status bar -->
-      <div class="ide-statusbar" aria-label="Editor status">
+      <div class="ide-statusbar" aria-label="Editor status bar">
         <span>Veltrix IDE</span>
-        <div class="statusbar-sep" aria-hidden="true"></div>
+        <div class="status-sep" aria-hidden="true"></div>
         <span id="status-file">—</span>
-        <div class="statusbar-sep" aria-hidden="true"></div>
+        <div class="status-sep" aria-hidden="true"></div>
         <span id="status-lang">—</span>
-        <div class="statusbar-sep" aria-hidden="true"></div>
+        <div class="status-sep" aria-hidden="true"></div>
         <span>UTF-8</span>
       </div>
 
     </div>
 
-    <!-- RIGHT: Live Preview -->
-    <div class="ide-preview" aria-label="Live preview">
+    <!-- ── RIGHT: Live Preview ── -->
+    <div class="ide-preview" aria-label="Live preview panel">
       <div class="preview-head">
         <span class="preview-title">Live Preview</span>
         <button class="preview-refresh" id="btn-refresh" aria-label="Refresh preview">
@@ -576,12 +209,12 @@
 
 </div><!-- /lab-page -->
 
-<!-- ════════════════════════════════════════
+<!-- =====================================================
      LOGIN MODAL
-     ════════════════════════════════════════ -->
+     ===================================================== -->
 <div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
   <div class="modal-box">
-    <button class="modal-close-btn" aria-label="Close login">&times;</button>
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
     <div class="modal-heading">
       <h2 id="login-title">Welcome back</h2>
       <p>Sign in to your Veltrix account</p>
@@ -602,12 +235,12 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
+<!-- =====================================================
      SIGNUP MODAL
-     ════════════════════════════════════════ -->
+     ===================================================== -->
 <div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
   <div class="modal-box">
-    <button class="modal-close-btn" aria-label="Close signup">&times;</button>
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
     <div class="modal-heading">
       <h2 id="signup-title">Create account</h2>
       <p>Join Veltrix IDE — it's completely free</p>
@@ -615,19 +248,19 @@
     <form id="form-signup" novalidate autocomplete="off">
       <div class="form-field">
         <label for="signup-fullname">Full Name</label>
-        <input type="text"     id="signup-fullname" name="fullname" placeholder="Jane Doe"             autocomplete="name"          required />
+        <input type="text"     id="signup-fullname" name="fullname" placeholder="Jane Doe"              autocomplete="name"          required />
       </div>
       <div class="form-field">
         <label for="signup-username">Username</label>
-        <input type="text"     id="signup-username" name="username" placeholder="janedoe"              autocomplete="username"      required />
+        <input type="text"     id="signup-username" name="username" placeholder="janedoe"               autocomplete="username"      required />
       </div>
       <div class="form-field">
         <label for="signup-email">Email</label>
-        <input type="email"    id="signup-email"    name="email"    placeholder="jane@example.com"     autocomplete="email"         required />
+        <input type="email"    id="signup-email"    name="email"    placeholder="jane@example.com"      autocomplete="email"         required />
       </div>
       <div class="form-field">
         <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password"  required />
+        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters"  autocomplete="new-password"  required />
       </div>
       <div class="form-error" id="err-signup"></div>
       <button type="submit" class="btn btn-primary form-submit">Create Account</button>
