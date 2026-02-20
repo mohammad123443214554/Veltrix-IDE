@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lab — Veltrix IDE</title>
-  <meta name="description" content="Veltrix IDE Lab: cloud code editor with live preview. Sign in to start building." />
+  <meta name="description" content="Veltrix IDE Lab: cloud code editor with live preview." />
   <meta name="author" content="Mohammad Khan" />
   <meta name="robots" content="noindex" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Instant theme — prevents flash -->
   <script>
     (function () {
       var t = localStorage.getItem('veltrix_theme') || 'aquatic';
@@ -24,9 +23,9 @@
 
 <div class="lab-page">
 
-  <!-- =====================================================
+  <!-- ═══════════════════════════════════════════════
        NAVBAR
-       ===================================================== -->
+       ═══════════════════════════════════════════════ -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-inner">
 
@@ -47,16 +46,16 @@
         <div class="theme-selector">
           <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                 stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="1"  x2="12" y2="3"/>
               <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="4.22" y1="4.22"   x2="5.64"  y2="5.64"/>
               <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="1"  y1="12" x2="3"  y2="12"/>
               <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+              <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
             </svg>
             <span class="theme-label">Aquatic</span>
           </button>
@@ -80,10 +79,10 @@
     </div>
   </nav>
 
-  <!-- =====================================================
-       GATE — shown when NOT logged in
-       ===================================================== -->
-  <div id="lab-gate" class="lab-gate" role="main" aria-live="polite">
+  <!-- ═══════════════════════════════════════════════
+       GATE — logged out
+       ═══════════════════════════════════════════════ -->
+  <div id="lab-gate" class="lab-gate" role="main">
     <div class="lab-gate-inner">
       <div class="lock-glyph" aria-hidden="true">🔒</div>
       <h2>Sign in to access the Lab</h2>
@@ -95,9 +94,9 @@
     </div>
   </div>
 
-  <!-- =====================================================
-       IDE — shown when logged in
-       ===================================================== -->
+  <!-- ═══════════════════════════════════════════════
+       IDE — logged in
+       ═══════════════════════════════════════════════ -->
   <div id="ide-wrap" class="ide-wrap" aria-label="Veltrix Cloud IDE">
 
     <!-- ── LEFT: File Explorer ── -->
@@ -107,30 +106,31 @@
         <span class="sidebar-label">Explorer</span>
         <div class="sidebar-actions">
 
-          <button class="sb-btn" id="btn-add-file" title="New file" aria-label="Add new file">
+          <!-- New File -->
+          <button class="sb-icon-btn" id="btn-add-file" data-tooltip="New File" aria-label="New file">
             <svg viewBox="0 0 16 16" fill="currentColor">
-              <path d="M9 1H3a1 1 0 00-1 1v12a1 1 0 001 1h10a1 1 0 001-1V5L9 1zm0 1.5L12.5 5H9V2.5z"/>
-              <path d="M8 7v2H6v1h2v2h1v-2h2V9H9V7H8z"/>
+              <path fill-rule="evenodd" d="M2 1.5A1.5 1.5 0 013.5 0h8A1.5 1.5 0 0113 1.5v13A1.5 1.5 0 0111.5 16h-8A1.5 1.5 0 012 14.5v-13zM3.5 1a.5.5 0 00-.5.5v13a.5.5 0 00.5.5h8a.5.5 0 00.5-.5v-13a.5.5 0 00-.5-.5h-8z" clip-rule="evenodd"/>
+              <path d="M8.5 6.5a.5.5 0 00-1 0V8H6a.5.5 0 000 1h1.5v1.5a.5.5 0 001 0V9H10a.5.5 0 000-1H8.5V6.5z"/>
             </svg>
-            + File
           </button>
 
-          <button class="sb-btn" id="btn-add-folder" title="New folder" aria-label="Add new folder">
+          <!-- New Folder -->
+          <button class="sb-icon-btn" id="btn-add-folder" data-tooltip="New Folder" aria-label="New folder">
             <svg viewBox="0 0 16 16" fill="currentColor">
-              <path d="M1 3.5A1.5 1.5 0 012.5 2h3.272a1.5 1.5 0 011.06.44L8 3.5H13.5A1.5 1.5 0 0115 5v6.5a1.5 1.5 0 01-1.5 1.5h-11A1.5 1.5 0 011 11.5v-8zM8 6.5v2H6v1h2v2h1v-2h2v-1H9v-2H8z"/>
+              <path d="M.54 3.87L.5 3a2 2 0 012-2h3.672a2 2 0 011.414.586l.828.828A2 2 0 009.828 3h3.982a2 2 0 011.992 2.181L15.546 8H14V5a1 1 0 00-1-1H9.828a1 1 0 01-.707-.293L8.293 2.879A1 1 0 007.586 2.5H2.5a1 1 0 00-.982.82L.54 3.87z"/>
+              <path d="M7.5 7.5a.5.5 0 00-1 0V9H5a.5.5 0 000 1h1.5v1.5a.5.5 0 001 0V10H9a.5.5 0 000-1H7.5V7.5zM1.5 8a1 1 0 00-.966 1.26L2 14a1 1 0 001 .74h10a1 1 0 001-.74l1.463-4.74A1 1 0 0014.5 8h-13z"/>
             </svg>
-            + Dir
           </button>
 
-          <button class="sb-btn" id="btn-upload" title="Upload file" aria-label="Upload file">
+          <!-- Upload File (icon only, tooltip) -->
+          <button class="sb-icon-btn" id="btn-upload" data-tooltip="Upload File" aria-label="Upload file">
             <svg viewBox="0 0 16 16" fill="currentColor">
+              <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8.5 2.707V11.5a.5.5 0 01-1 0V2.707L5.354 4.854a.5.5 0 11-.708-.708l3-3z" clip-rule="evenodd"/>
               <path d="M.5 9.9a.5.5 0 01.5.5v2.5a1 1 0 001 1h12a1 1 0 001-1v-2.5a.5.5 0 011 0v2.5a2 2 0 01-2 2H2a2 2 0 01-2-2v-2.5a.5.5 0 01.5-.5z"/>
-              <path d="M7.646 1.146a.5.5 0 01.708 0l3 3a.5.5 0 01-.708.708L8.5 2.707V11.5a.5.5 0 01-1 0V2.707L5.354 4.854a.5.5 0 11-.708-.708l3-3z"/>
             </svg>
-            Upload
           </button>
 
-          <!-- Hidden file input for upload -->
+          <!-- Hidden file input -->
           <input
             type="file"
             id="upload-input"
@@ -142,7 +142,7 @@
         </div>
       </div>
 
-      <!-- File tree (rendered by JS) -->
+      <!-- File tree — rendered by script.js -->
       <div class="file-tree" id="file-tree" role="tree" aria-label="Project files">
         <div class="tree-empty">Loading…</div>
       </div>
@@ -152,12 +152,12 @@
     <!-- ── CENTER: Editor Panel ── -->
     <div class="ide-editor-panel">
 
-      <!-- Tab bar (rendered by JS) -->
+      <!-- Tab bar — rendered by script.js -->
       <div class="ide-tab-bar" id="ide-tab-bar" role="tablist" aria-label="Open files">
         <span class="tab-bar-empty">No open files</span>
       </div>
 
-      <!-- Code editor textarea -->
+      <!-- Single shared code editor -->
       <textarea
         id="ide-code-editor"
         spellcheck="false"
@@ -171,13 +171,13 @@
         disabled
       ></textarea>
 
-      <!-- Image preview (shown for image files) -->
-      <div id="ide-image-preview" aria-label="Image preview" role="img">
-        <img id="ide-preview-img" src="" alt="Uploaded image preview" />
+      <!-- Image preview for image files -->
+      <div id="ide-image-preview" aria-label="Image preview">
+        <img id="ide-preview-img" src="" alt="Uploaded image" />
       </div>
 
       <!-- Status bar -->
-      <div class="ide-statusbar" aria-label="Editor status bar">
+      <div class="ide-statusbar" aria-label="Editor status">
         <span>Veltrix IDE</span>
         <div class="status-sep" aria-hidden="true"></div>
         <span id="status-file">—</span>
@@ -193,9 +193,7 @@
     <div class="ide-preview" aria-label="Live preview panel">
       <div class="preview-head">
         <span class="preview-title">Live Preview</span>
-        <button class="preview-refresh" id="btn-refresh" aria-label="Refresh preview">
-          ↺ Refresh
-        </button>
+        <button class="preview-refresh" id="btn-refresh" aria-label="Refresh preview">↺ Refresh</button>
       </div>
       <iframe
         class="preview-frame"
@@ -209,9 +207,9 @@
 
 </div><!-- /lab-page -->
 
-<!-- =====================================================
+<!-- ═══════════════════════════════════════════════
      LOGIN MODAL
-     ===================================================== -->
+     ═══════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
   <div class="modal-box">
     <button class="modal-close-btn" aria-label="Close">&times;</button>
@@ -235,9 +233,9 @@
   </div>
 </div>
 
-<!-- =====================================================
+<!-- ═══════════════════════════════════════════════
      SIGNUP MODAL
-     ===================================================== -->
+     ═══════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
   <div class="modal-box">
     <button class="modal-close-btn" aria-label="Close">&times;</button>
