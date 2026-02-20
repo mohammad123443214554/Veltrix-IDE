@@ -1,6 +1,6 @@
 /* ============================================================
    VELTRIX IDE — script.js
-   Theme | Auth | File Explorer | Editor | Live Preview
+   Theme | Auth | File System | Editor | Preview
    ============================================================ */
 
 'use strict';
@@ -34,27 +34,25 @@ function applyTheme(id) {
 }
 
 function buildThemeDropdown() {
-  const dropdown = document.querySelector('.theme-dropdown');
-  if (!dropdown) return;
+  const dd = document.querySelector('.theme-dropdown');
+  if (!dd) return;
   const current = getSavedTheme();
-  dropdown.innerHTML = THEMES.map(t => `
+  dd.innerHTML = THEMES.map(t => `
     <div class="theme-item ${t.id === current ? 'active' : ''}" data-theme-id="${t.id}">
-      <span class="theme-swatch" style="background:${t.swatch}"></span>
-      ${t.label}
-    </div>
-  `).join('');
-  dropdown.querySelectorAll('.theme-item').forEach(item => {
+      <span class="theme-swatch" style="background:${t.swatch}"></span>${t.label}
+    </div>`).join('');
+  dd.querySelectorAll('.theme-item').forEach(item => {
     item.addEventListener('click', () => {
       applyTheme(item.dataset.themeId);
-      toggleThemeDropdown(false);
+      toggleDD(false);
     });
   });
 }
 
-function toggleThemeDropdown(force) {
+function toggleDD(force) {
   const btn  = document.querySelector('.theme-toggle-btn');
   const dd   = document.querySelector('.theme-dropdown');
-  const open = (typeof force === 'boolean') ? force : !dd?.classList.contains('open');
+  const open = typeof force === 'boolean' ? force : !dd?.classList.contains('open');
   dd?.classList.toggle('open', open);
   btn?.classList.toggle('open', open);
 }
@@ -66,9 +64,9 @@ function initTheme() {
   applyTheme(saved);
   document.querySelector('.theme-toggle-btn')?.addEventListener('click', e => {
     e.stopPropagation();
-    toggleThemeDropdown();
+    toggleDD();
   });
-  document.addEventListener('click', () => toggleThemeDropdown(false));
+  document.addEventListener('click', () => toggleDD(false));
 }
 
 /* ============================================================
@@ -78,65 +76,39 @@ function initTheme() {
 const LS_USERS   = 'veltrix_users';
 const LS_SESSION = 'veltrix_session';
 
-function getUsers() {
-  try { return JSON.parse(localStorage.getItem(LS_USERS)) || {}; }
-  catch { return {}; }
-}
-
-function saveUsers(obj) {
-  localStorage.setItem(LS_USERS, JSON.stringify(obj));
-}
-
-function getSession() {
-  try { return JSON.parse(localStorage.getItem(LS_SESSION)); }
-  catch { return null; }
-}
-
-function setSession(user) {
-  localStorage.setItem(LS_SESSION, JSON.stringify(user));
-}
-
-function clearSession() {
-  localStorage.removeItem(LS_SESSION);
-}
+function getUsers()  { try { return JSON.parse(localStorage.getItem(LS_USERS))   || {}; } catch { return {}; } }
+function getSession(){ try { return JSON.parse(localStorage.getItem(LS_SESSION));        } catch { return null; } }
+function saveUsers(o){ localStorage.setItem(LS_USERS,   JSON.stringify(o)); }
+function setSession(u){ localStorage.setItem(LS_SESSION, JSON.stringify(u)); }
+function clearSession(){ localStorage.removeItem(LS_SESSION); }
 
 function syncAuthUI() {
-  const session  = getSession();
-  const authGrp  = document.getElementById('auth-group');
-  const userGrp  = document.getElementById('user-group');
-  const nameEl   = document.getElementById('nav-username');
-  const avatarEl = document.getElementById('nav-avatar');
+  const s       = getSession();
+  const authGrp = document.getElementById('auth-group');
+  const userGrp = document.getElementById('user-group');
+  const nameEl  = document.getElementById('nav-username');
+  const avEl    = document.getElementById('nav-avatar');
 
-  if (session) {
-    if (authGrp)  authGrp.style.display = 'none';
-    if (userGrp)  userGrp.style.display = 'flex';
-    if (nameEl)   nameEl.textContent    = session.username;
-    if (avatarEl) avatarEl.textContent  = session.username.charAt(0).toUpperCase();
+  if (s) {
+    if (authGrp) authGrp.style.display = 'none';
+    if (userGrp) userGrp.style.display = 'flex';
+    if (nameEl)  nameEl.textContent    = s.username;
+    if (avEl)    avEl.textContent      = s.username.charAt(0).toUpperCase();
   } else {
-    if (authGrp)  authGrp.style.display = 'flex';
-    if (userGrp)  userGrp.style.display = 'none';
+    if (authGrp) authGrp.style.display = 'flex';
+    if (userGrp) userGrp.style.display = 'none';
   }
 
   const gate    = document.getElementById('lab-gate');
   const ideWrap = document.getElementById('ide-wrap');
   if (gate && ideWrap) {
-    if (session) {
-      gate.style.display = 'none';
-      ideWrap.classList.add('visible');
-    } else {
-      gate.style.display = 'flex';
-      ideWrap.classList.remove('visible');
-    }
+    if (s) { gate.style.display = 'none'; ideWrap.classList.add('visible'); }
+    else   { gate.style.display = 'flex'; ideWrap.classList.remove('visible'); }
   }
 }
 
-function openModal(id) {
-  document.getElementById(id)?.classList.add('open');
-}
-
-function closeModal(id) {
-  document.getElementById(id)?.classList.remove('open');
-}
+function openModal(id)  { document.getElementById(id)?.classList.add('open');    }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
 
 function showFormError(id, msg) {
   const el = document.getElementById(id);
@@ -155,13 +127,9 @@ function initAuth() {
     });
   });
 
-  document.querySelectorAll('.modal-overlay').forEach(overlay => {
-    overlay.addEventListener('click', e => {
-      if (e.target === overlay) overlay.classList.remove('open');
-    });
-    overlay.querySelector('.modal-close-btn')?.addEventListener('click', () => {
-      overlay.classList.remove('open');
-    });
+  document.querySelectorAll('.modal-overlay').forEach(ov => {
+    ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
+    ov.querySelector('.modal-close-btn')?.addEventListener('click', () => ov.classList.remove('open'));
   });
 
   document.getElementById('logout-btn')?.addEventListener('click', () => {
@@ -173,22 +141,18 @@ function initAuth() {
   if (signupForm) {
     signupForm.addEventListener('submit', e => {
       e.preventDefault();
-      const fullname = signupForm.fullname.value.trim();
-      const username = signupForm.username.value.trim().toLowerCase().replace(/\s+/g, '');
-      const email    = signupForm.email.value.trim().toLowerCase();
-      const password = signupForm.password.value;
-      if (!fullname || !username || !email || !password)
-        return showFormError('err-signup', 'All fields are required.');
-      if (username.length < 3)
-        return showFormError('err-signup', 'Username must be at least 3 characters.');
-      if (password.length < 6)
-        return showFormError('err-signup', 'Password must be at least 6 characters.');
+      const fn = signupForm.fullname.value.trim();
+      const un = signupForm.username.value.trim().toLowerCase().replace(/\s+/g, '');
+      const em = signupForm.email.value.trim().toLowerCase();
+      const pw = signupForm.password.value;
+      if (!fn || !un || !em || !pw) return showFormError('err-signup', 'All fields are required.');
+      if (un.length < 3)            return showFormError('err-signup', 'Username must be at least 3 characters.');
+      if (pw.length < 6)            return showFormError('err-signup', 'Password must be at least 6 characters.');
       const users = getUsers();
-      if (users[username])
-        return showFormError('err-signup', 'That username is already taken.');
-      users[username] = { fullname, username, email, password };
+      if (users[un])                return showFormError('err-signup', 'That username is already taken.');
+      users[un] = { fullname: fn, username: un, email: em, password: pw };
       saveUsers(users);
-      setSession({ fullname, username, email });
+      setSession({ fullname: fn, username: un, email: em });
       signupForm.reset();
       closeModal('modal-signup');
       syncAuthUI();
@@ -199,12 +163,11 @@ function initAuth() {
   if (loginForm) {
     loginForm.addEventListener('submit', e => {
       e.preventDefault();
-      const username = loginForm.username.value.trim().toLowerCase();
-      const password = loginForm.password.value;
-      const users    = getUsers();
-      const user     = users[username];
-      if (!user || user.password !== password)
-        return showFormError('err-login', 'Incorrect username or password.');
+      const un   = loginForm.username.value.trim().toLowerCase();
+      const pw   = loginForm.password.value;
+      const users = getUsers();
+      const user  = users[un];
+      if (!user || user.password !== pw) return showFormError('err-login', 'Incorrect username or password.');
       setSession({ fullname: user.fullname, username: user.username, email: user.email });
       loginForm.reset();
       closeModal('modal-login');
@@ -214,32 +177,31 @@ function initAuth() {
 }
 
 /* ============================================================
-   FILE EXPLORER — Storage Schema
+   FILE SYSTEM
    ============================================================
-   localStorage key: "veltrix_lab_files"
-   Value (JSON):
+   localStorage key : "veltrix_files_v2"
+   Schema:
    {
-     activeFileId: "string|null",
+     activeId: string | null,
      files: [
        {
-         id:      "unique string",
-         name:    "index.html",
-         type:    "file" | "folder",
-         lang:    "html" | "css" | "js" | "text" | null,
-         content: "string" | null
+         id:        string,
+         name:      string,
+         type:      "file" | "folder",
+         lang:      "html"|"css"|"js"|"text"|"image"|null,
+         content:   string | null,   // text files
+         dataURL:   string | null,   // image files (base64)
+         createdAt: number           // timestamp for sorting newest-first
        }
      ]
    }
    ============================================================ */
 
-const LS_FILES = 'veltrix_lab_files';
+const LS_FILES = 'veltrix_files_v2';
 
 const DEFAULT_FILES = [
   {
-    id:      'default-html',
-    name:    'index.html',
-    type:    'file',
-    lang:    'html',
+    id: 'f-html', name: 'index.html', type: 'file', lang: 'html',
     content: `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -249,22 +211,16 @@ const DEFAULT_FILES = [
 </head>
 <body>
 
-  <h1>Hello, Veltrix IDE! \u{1F44B}</h1>
+  <h1>Hello, Veltrix IDE!</h1>
   <p>Edit the files in the explorer to build your project.</p>
 
 </body>
 </html>`,
+    dataURL: null, createdAt: 3,
   },
   {
-    id:      'default-css',
-    name:    'style.css',
-    type:    'file',
-    lang:    'css',
-    content: `* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    id: 'f-css', name: 'style.css', type: 'file', lang: 'css',
+    content: `* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -274,100 +230,89 @@ body {
   line-height: 1.6;
 }
 
-h1 {
-  font-size: 2rem;
-  margin-bottom: 12px;
-  letter-spacing: -0.02em;
-}
-
-p {
-  color: #555;
-  font-size: 1rem;
-}`,
+h1 { font-size: 2rem; margin-bottom: 12px; }
+p  { color: #555; }`,
+    dataURL: null, createdAt: 2,
   },
   {
-    id:      'default-js',
-    name:    'script.js',
-    type:    'file',
-    lang:    'js',
-    content: `// script.js
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('Veltrix IDE \u2014 ready!');
+    id: 'f-js', name: 'script.js', type: 'file', lang: 'js',
+    content: `document.addEventListener('DOMContentLoaded', () => {
+  console.log('Veltrix IDE — ready!');
 });`,
+    dataURL: null, createdAt: 1,
   },
 ];
 
-/* ── IDE global state ── */
-const IDE = {
-  files:        [],
-  activeFileId: null,
+/* IDE state (runtime) */
+const FS = {
+  files:    [],
+  activeId: null,
 };
 
-/* ── Utilities ── */
-
+/* Helpers */
 function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  return 'f_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
-function detectLang(filename) {
-  const ext = (filename.split('.').pop() || '').toLowerCase();
-  if (ext === 'html' || ext === 'htm') return 'html';
-  if (ext === 'css')                   return 'css';
-  if (ext === 'js'  || ext === 'mjs' || ext === 'ts') return 'js';
+function detectLang(name) {
+  const ext = (name.split('.').pop() || '').toLowerCase();
+  if (['html','htm'].includes(ext))       return 'html';
+  if (ext === 'css')                       return 'css';
+  if (['js','mjs','ts'].includes(ext))    return 'js';
+  if (['png','jpg','jpeg','svg','gif','webp','bmp'].includes(ext)) return 'image';
   return 'text';
 }
 
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+function isImage(lang) { return lang === 'image'; }
 
-function getFileIcon(file) {
-  if (file.type === 'folder') return '&#128193;';
-  const icons = { html: '&#127760;', css: '&#127912;', js: '&#9889;', text: '&#128196;' };
-  return icons[file.lang] || '&#128196;';
+function getIcon(file) {
+  if (file.type === 'folder') return '📁';
+  const m = { html: '🌐', css: '🎨', js: '⚡', image: '🖼️', text: '📄' };
+  return m[file.lang] || '📄';
 }
 
 function getLangLabel(lang) {
-  const map = { html: 'HTML', css: 'CSS', js: 'JavaScript', text: 'Plain Text' };
-  return map[lang] || lang.toUpperCase();
+  const m = { html: 'HTML', css: 'CSS', js: 'JavaScript', image: 'Image', text: 'Plain Text' };
+  return m[lang] || (lang || '').toUpperCase();
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+/* Sort files: newest createdAt first */
+function sortedFiles() {
+  return [...FS.files].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 }
 
 /* ── Persistence ── */
-
 function loadFromStorage() {
   try {
     const raw = localStorage.getItem(LS_FILES);
     if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (!parsed || !Array.isArray(parsed.files)) return null;
-    return parsed;
-  } catch {
-    return null;
-  }
+    const p = JSON.parse(raw);
+    if (!p || !Array.isArray(p.files)) return null;
+    return p;
+  } catch { return null; }
 }
 
 function saveToStorage() {
   localStorage.setItem(LS_FILES, JSON.stringify({
-    activeFileId: IDE.activeFileId,
-    files:        IDE.files,
+    activeId: FS.activeId,
+    files:    FS.files,
   }));
 }
-
-/* ── State init ── */
 
 function initState() {
   const saved = loadFromStorage();
   if (saved && saved.files.length > 0) {
-    IDE.files        = saved.files;
-    IDE.activeFileId = saved.activeFileId || (saved.files.find(f => f.type === 'file')?.id ?? null);
+    FS.files    = saved.files;
+    FS.activeId = saved.activeId || (saved.files.find(f => f.type === 'file')?.id ?? null);
   } else {
-    IDE.files        = JSON.parse(JSON.stringify(DEFAULT_FILES));
-    IDE.activeFileId = 'default-html';
+    FS.files    = JSON.parse(JSON.stringify(DEFAULT_FILES));
+    FS.activeId = 'f-html';
     saveToStorage();
   }
 }
@@ -377,205 +322,171 @@ function initState() {
    ============================================================ */
 
 function createFile(name, type) {
-  name = name.trim();
-  if (!name) return;
+  name = (name || '').trim();
+  if (!name) return null;
 
-  const duplicate = IDE.files.some(f => f.name === name && f.type === type);
-  if (duplicate) {
+  if (FS.files.some(f => f.name === name && f.type === type)) {
     alert(`A ${type} named "${name}" already exists.`);
-    return;
+    return null;
   }
 
   const file = {
-    id:      uid(),
+    id:        uid(),
     name,
     type,
-    lang:    type === 'file' ? detectLang(name) : null,
-    content: type === 'file' ? '' : null,
+    lang:      type === 'file' ? detectLang(name) : null,
+    content:   type === 'file' ? '' : null,
+    dataURL:   null,
+    createdAt: Date.now(),
   };
 
-  IDE.files.push(file);
+  FS.files.unshift(file);          // add to beginning for newest-first
 
   if (type === 'file') {
-    IDE.activeFileId = file.id;
-  }
-
-  saveToStorage();
-  renderFileList();
-  renderEditorTabs();
-
-  if (type === 'file') {
+    FS.activeId = file.id;
+    saveToStorage();
+    renderFileList();
+    renderTabBar();
     openFileInEditor(file.id);
+  } else {
+    saveToStorage();
+    renderFileList();
   }
+
+  return file;
 }
 
 function deleteFile(id) {
-  const file = IDE.files.find(f => f.id === id);
+  const file = FS.files.find(f => f.id === id);
   if (!file) return;
 
-  if (!confirm(`Delete "${file.name}"?\nThis action cannot be undone.`)) return;
+  if (!confirm(`Delete "${file.name}"?\nThis cannot be undone.`)) return;
 
-  IDE.files = IDE.files.filter(f => f.id !== id);
+  FS.files = FS.files.filter(f => f.id !== id);
 
-  if (IDE.activeFileId === id) {
-    const remaining  = IDE.files.filter(f => f.type === 'file');
-    IDE.activeFileId = remaining.length > 0 ? remaining[remaining.length - 1].id : null;
+  if (FS.activeId === id) {
+    const next = FS.files.find(f => f.type === 'file');
+    FS.activeId = next ? next.id : null;
   }
 
   saveToStorage();
   renderFileList();
-  renderEditorTabs();
+  renderTabBar();
 
-  if (IDE.activeFileId) {
-    openFileInEditor(IDE.activeFileId);
-  } else {
-    clearEditor();
-  }
+  if (FS.activeId) openFileInEditor(FS.activeId);
+  else             clearEditor();
 }
 
 function duplicateFile(id) {
-  const file = IDE.files.find(f => f.id === id);
-  if (!file || file.type !== 'file') return;
+  const orig = FS.files.find(f => f.id === id);
+  if (!orig || orig.type !== 'file') return;
 
-  const parts    = file.name.split('.');
+  const parts    = orig.name.split('.');
   const ext      = parts.length > 1 ? '.' + parts.pop() : '';
   const base     = parts.join('.');
   let   copyName = `${base}-copy${ext}`;
-  let   n        = 1;
-
-  while (IDE.files.some(f => f.name === copyName)) {
+  let   n = 1;
+  while (FS.files.some(f => f.name === copyName)) {
     copyName = `${base}-copy${n}${ext}`;
     n++;
   }
 
   const dupe = {
-    id:      uid(),
-    name:    copyName,
-    type:    'file',
-    lang:    file.lang,
-    content: file.content,
+    id:        uid(),
+    name:      copyName,
+    type:      'file',
+    lang:      orig.lang,
+    content:   orig.content,
+    dataURL:   orig.dataURL,
+    createdAt: Date.now(),       // newest → goes to top
   };
 
-  const idx = IDE.files.findIndex(f => f.id === id);
-  IDE.files.splice(idx + 1, 0, dupe);
-  IDE.activeFileId = dupe.id;
+  FS.files.unshift(dupe);
+  FS.activeId = dupe.id;
 
   saveToStorage();
   renderFileList();
-  renderEditorTabs();
+  renderTabBar();
   openFileInEditor(dupe.id);
 }
 
 function renameFile(id) {
-  const file = IDE.files.find(f => f.id === id);
+  const file = FS.files.find(f => f.id === id);
   if (!file) return;
 
   const newName = prompt(`Rename "${file.name}" to:`, file.name);
   if (!newName || !newName.trim() || newName.trim() === file.name) return;
 
   const trimmed = newName.trim();
-  const taken   = IDE.files.some(f => f.name === trimmed && f.id !== id);
-  if (taken) {
+  if (FS.files.some(f => f.name === trimmed && f.id !== id)) {
     alert(`A file named "${trimmed}" already exists.`);
     return;
   }
 
   file.name = trimmed;
-  if (file.type === 'file') {
-    file.lang = detectLang(trimmed);
-  }
+  if (file.type === 'file') file.lang = detectLang(trimmed);
 
   saveToStorage();
   renderFileList();
-  renderEditorTabs();
+  renderTabBar();
 }
 
-/* Flush the currently displayed editor content into state */
-function flushEditorToState() {
-  if (!IDE.activeFileId) return;
-  const file   = IDE.files.find(f => f.id === IDE.activeFileId);
+/* Upload a file from disk */
+function uploadFile(nativeFile) {
+  const name = nativeFile.name;
+  const lang = detectLang(name);
+
+  // Check duplicate
+  let safeName = name;
+  if (FS.files.some(f => f.name === safeName)) {
+    const parts = safeName.split('.');
+    const ext   = parts.length > 1 ? '.' + parts.pop() : '';
+    const base  = parts.join('.');
+    let n = 1;
+    while (FS.files.some(f => f.name === safeName)) {
+      safeName = `${base}-${n}${ext}`;
+      n++;
+    }
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    const file = {
+      id:        uid(),
+      name:      safeName,
+      type:      'file',
+      lang,
+      content:   isImage(lang) ? null : (e.target.result || ''),
+      dataURL:   isImage(lang) ? (e.target.result || null) : null,
+      createdAt: Date.now(),
+    };
+
+    FS.files.unshift(file);      // newest first
+    FS.activeId = file.id;
+
+    saveToStorage();
+    renderFileList();
+    renderTabBar();
+    openFileInEditor(file.id);
+  };
+
+  if (isImage(lang)) {
+    reader.readAsDataURL(nativeFile);
+  } else {
+    reader.readAsText(nativeFile);
+  }
+}
+
+/* Flush editor textarea → active file */
+function flushToState() {
+  if (!FS.activeId) return;
+  const file   = FS.files.find(f => f.id === FS.activeId);
   const editor = document.getElementById('ide-code-editor');
-  if (file && editor && file.type === 'file') {
+  if (file && editor && file.type === 'file' && !isImage(file.lang)) {
     file.content = editor.value;
     saveToStorage();
   }
-}
-
-/* ============================================================
-   CONTEXT MENU (3-dot dropdown)
-   ============================================================ */
-
-let _activeMenu = null;
-
-function closeAllContextMenus() {
-  if (_activeMenu) {
-    _activeMenu.remove();
-    _activeMenu = null;
-  }
-}
-
-function showContextMenu(triggerEl, fileId, fileType) {
-  closeAllContextMenus();
-
-  const menu = document.createElement('div');
-  menu.className = 'tree-context-menu';
-
-  const isFile = fileType === 'file';
-
-  menu.innerHTML = `
-    <button class="ctx-item" data-action="rename">
-      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
-        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
-      </svg>
-      Rename
-    </button>
-    ${isFile ? `
-    <button class="ctx-item" data-action="duplicate">
-      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
-        <path d="M8 2a2 2 0 00-2 2v10a2 2 0 002 2h6a2 2 0 002-2V8l-4-4H8zm4 4V3l4 4h-4z"/>
-      </svg>
-      Duplicate
-    </button>` : ''}
-    <div class="ctx-divider"></div>
-    <button class="ctx-item ctx-danger" data-action="delete">
-      <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd"/>
-      </svg>
-      Delete
-    </button>
-  `;
-
-  document.body.appendChild(menu);
-  _activeMenu = menu;
-
-  // Position: below trigger, right-aligned
-  const rect = triggerEl.getBoundingClientRect();
-  const mW   = 160;
-  let left    = rect.right - mW;
-  let top     = rect.bottom + 4;
-
-  if (left < 4)                             left = 4;
-  if (top + 130 > window.innerHeight - 8)  top  = rect.top - 134;
-
-  menu.style.left = left + 'px';
-  menu.style.top  = top  + 'px';
-
-  // Action handlers
-  menu.querySelectorAll('.ctx-item').forEach(item => {
-    item.addEventListener('click', e => {
-      e.stopPropagation();
-      const action = item.dataset.action;
-      closeAllContextMenus();
-      if (action === 'rename')    renameFile(fileId);
-      if (action === 'duplicate') duplicateFile(fileId);
-      if (action === 'delete')    deleteFile(fileId);
-    });
-  });
-
-  // Close on outside click (next tick)
-  setTimeout(() => {
-    document.addEventListener('click', closeAllContextMenus, { once: true });
-  }, 0);
 }
 
 /* ============================================================
@@ -586,161 +497,176 @@ function renderFileList() {
   const tree = document.getElementById('file-tree');
   if (!tree) return;
 
-  closeAllContextMenus();
-
-  const folders = IDE.files.filter(f => f.type === 'folder');
-  const files   = IDE.files.filter(f => f.type === 'file');
-
-  if (IDE.files.length === 0) {
-    tree.innerHTML = '<div class="tree-empty">No files yet.<br>Click + File to start.</div>';
+  if (FS.files.length === 0) {
+    tree.innerHTML = '<div class="tree-empty">No files yet.<br>Click + File or Upload to start.</div>';
     return;
   }
 
+  const ordered  = sortedFiles();
+  const folders  = ordered.filter(f => f.type === 'folder');
+  const files    = ordered.filter(f => f.type === 'file');
+
   let html = '';
 
+  // Folders first
   folders.forEach(folder => {
     html += `
-      <div class="tree-row tree-folder-row" data-id="${folder.id}">
-        <span class="tree-icon">${getFileIcon(folder)}</span>
-        <span class="tree-name">${escapeHtml(folder.name)}/</span>
-        <button class="tree-menu-btn" data-id="${folder.id}" data-type="folder" aria-label="Options" title="Options">&#8942;</button>
+      <div class="tree-row folder-row" data-id="${folder.id}">
+        <span class="tree-icon">${getIcon(folder)}</span>
+        <span class="folder-name">${escHtml(folder.name)}/</span>
+        <div class="row-actions">
+          <button class="row-btn" data-action="rename" data-id="${folder.id}" title="Rename">✏️</button>
+          <button class="row-btn danger" data-action="delete" data-id="${folder.id}" title="Delete">🗑</button>
+        </div>
       </div>`;
   });
 
+  // Files — newest first
   files.forEach(file => {
-    const isActive = file.id === IDE.activeFileId;
+    const active = file.id === FS.activeId;
     html += `
-      <div class="tree-row tree-file-row ${isActive ? 'active' : ''}"
+      <div class="tree-row file-row ${active ? 'active' : ''}"
            data-id="${file.id}"
            tabindex="0"
            role="treeitem"
-           aria-selected="${isActive}">
-        <span class="tree-icon">${getFileIcon(file)}</span>
-        <span class="tree-name">${escapeHtml(file.name)}</span>
-        <button class="tree-menu-btn" data-id="${file.id}" data-type="file" aria-label="Options for ${escapeHtml(file.name)}" title="Options">&#8942;</button>
+           aria-selected="${active}">
+        <span class="tree-icon">${getIcon(file)}</span>
+        <span class="tree-filename">${escHtml(file.name)}</span>
+        <div class="row-actions">
+          <button class="row-btn" data-action="rename"    data-id="${file.id}" title="Rename">✏️</button>
+          <button class="row-btn" data-action="duplicate" data-id="${file.id}" title="Duplicate">📄</button>
+          <button class="row-btn danger" data-action="delete" data-id="${file.id}" title="Delete">🗑</button>
+        </div>
       </div>`;
   });
 
   tree.innerHTML = html;
 
-  // File row → open
-  tree.querySelectorAll('.tree-file-row').forEach(row => {
+  /* ── Bind: open file on row click ── */
+  tree.querySelectorAll('.file-row').forEach(row => {
     row.addEventListener('click', e => {
-      if (e.target.closest('.tree-menu-btn')) return;
-      flushEditorToState();
-      IDE.activeFileId = row.dataset.id;
+      if (e.target.closest('.row-btn')) return;
+      flushToState();
+      FS.activeId = row.dataset.id;
       saveToStorage();
       renderFileList();
-      renderEditorTabs();
-      openFileInEditor(IDE.activeFileId);
+      renderTabBar();
+      openFileInEditor(FS.activeId);
     });
-
     row.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        row.click();
-      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
     });
   });
 
-  // 3-dot menu button
-  tree.querySelectorAll('.tree-menu-btn').forEach(btn => {
+  /* ── Bind: action buttons ── */
+  tree.querySelectorAll('.row-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      showContextMenu(btn, btn.dataset.id, btn.dataset.type);
+      const { action, id } = btn.dataset;
+      if (action === 'delete')    deleteFile(id);
+      if (action === 'duplicate') duplicateFile(id);
+      if (action === 'rename')    renameFile(id);
     });
   });
 }
 
 /* ============================================================
-   EDITOR TABS RENDER
+   TAB BAR RENDER
    ============================================================ */
 
-function renderEditorTabs() {
-  const tabBar = document.getElementById('ide-tab-bar');
-  if (!tabBar) return;
+function renderTabBar() {
+  const bar = document.getElementById('ide-tab-bar');
+  if (!bar) return;
 
-  const fileItems = IDE.files.filter(f => f.type === 'file');
+  const files = sortedFiles().filter(f => f.type === 'file');
 
-  if (fileItems.length === 0) {
-    tabBar.innerHTML = '<span class="tab-placeholder">No open files</span>';
+  if (files.length === 0) {
+    bar.innerHTML = '<span class="tab-bar-empty">No open files</span>';
     return;
   }
 
-  tabBar.innerHTML = fileItems.map(file => {
-    const isActive = file.id === IDE.activeFileId;
-    return `
-      <button class="ide-tab ${isActive ? 'active' : ''}"
-              data-file-id="${file.id}"
-              role="tab"
-              aria-selected="${isActive}"
-              title="${escapeHtml(file.name)}">
-        <span class="tab-name">${escapeHtml(file.name)}</span>
-        <span class="tab-close" data-close-id="${file.id}" aria-label="Close ${escapeHtml(file.name)}" title="Close tab">&times;</span>
-      </button>`;
-  }).join('');
+  bar.innerHTML = files.map(f => `
+    <button class="ide-tab ${f.id === FS.activeId ? 'active' : ''}"
+            data-fid="${f.id}"
+            role="tab"
+            aria-selected="${f.id === FS.activeId}"
+            title="${escHtml(f.name)}">
+      <span class="tab-label">${escHtml(f.name)}</span>
+      <span class="tab-x" data-close="${f.id}" aria-label="Close" title="Close">&times;</span>
+    </button>`).join('');
 
-  // Tab click → switch file
-  tabBar.querySelectorAll('.ide-tab').forEach(tab => {
+  bar.querySelectorAll('.ide-tab').forEach(tab => {
     tab.addEventListener('click', e => {
-      if (e.target.closest('.tab-close')) return;
-      flushEditorToState();
-      IDE.activeFileId = tab.dataset.fileId;
+      if (e.target.closest('.tab-x')) return;
+      flushToState();
+      FS.activeId = tab.dataset.fid;
       saveToStorage();
       renderFileList();
-      renderEditorTabs();
-      openFileInEditor(IDE.activeFileId);
+      renderTabBar();
+      openFileInEditor(FS.activeId);
     });
   });
 
-  // Tab close
-  tabBar.querySelectorAll('.tab-close').forEach(btn => {
-    btn.addEventListener('click', e => {
+  bar.querySelectorAll('.tab-x').forEach(x => {
+    x.addEventListener('click', e => {
       e.stopPropagation();
-      flushEditorToState();
-      const closingId = btn.dataset.closeId;
-
-      if (IDE.activeFileId === closingId) {
-        const remaining = IDE.files.filter(f => f.type === 'file' && f.id !== closingId);
-        IDE.activeFileId = remaining.length > 0 ? remaining[remaining.length - 1].id : null;
+      flushToState();
+      const closingId = x.dataset.close;
+      if (FS.activeId === closingId) {
+        const rest   = FS.files.filter(f => f.type === 'file' && f.id !== closingId);
+        FS.activeId  = rest.length > 0 ? rest[0].id : null;
       }
-
       saveToStorage();
       renderFileList();
-      renderEditorTabs();
-
-      if (IDE.activeFileId) {
-        openFileInEditor(IDE.activeFileId);
-      } else {
-        clearEditor();
-      }
+      renderTabBar();
+      if (FS.activeId) openFileInEditor(FS.activeId);
+      else             clearEditor();
     });
   });
 }
 
 /* ============================================================
-   EDITOR — Open / Clear
+   EDITOR — OPEN / CLEAR
    ============================================================ */
 
 function openFileInEditor(id) {
-  const file        = IDE.files.find(f => f.id === id);
-  const editor      = document.getElementById('ide-code-editor');
-  const statusLang  = document.getElementById('status-lang');
-  const statusFile  = document.getElementById('status-file');
+  const file       = FS.files.find(f => f.id === id);
+  const editor     = document.getElementById('ide-code-editor');
+  const imgPreview = document.getElementById('ide-image-preview');
+  const imgEl      = document.getElementById('ide-preview-img');
+  const statusLang = document.getElementById('status-lang');
+  const statusFile = document.getElementById('status-file');
 
   if (!editor) return;
 
   if (!file || file.type !== 'file') {
-    editor.value       = '';
     editor.disabled    = true;
+    editor.value       = '';
     editor.placeholder = 'Select a file to edit';
+    if (imgPreview) imgPreview.classList.remove('visible');
     return;
   }
 
-  editor.disabled    = false;
-  editor.value       = file.content ?? '';
-  editor.placeholder = '';
-  editor.scrollTop   = 0;
+  if (isImage(file.lang)) {
+    // Show image preview, hide textarea
+    editor.style.display = 'none';
+    if (imgPreview) {
+      imgPreview.classList.add('visible');
+      if (imgEl) imgEl.src = file.dataURL || '';
+    }
+    if (statusLang) statusLang.textContent = 'Image';
+    if (statusFile) statusFile.textContent  = file.name;
+    return;
+  }
+
+  // Text / code file
+  if (imgPreview) imgPreview.classList.remove('visible');
+  editor.style.display = '';
+  editor.disabled      = false;
+  editor.value         = file.content ?? '';
+  editor.placeholder   = '';
+  editor.scrollTop     = 0;
+  editor.focus();
 
   if (statusLang) statusLang.textContent = getLangLabel(file.lang);
   if (statusFile) statusFile.textContent  = file.name;
@@ -750,14 +676,17 @@ function openFileInEditor(id) {
 
 function clearEditor() {
   const editor     = document.getElementById('ide-code-editor');
+  const imgPreview = document.getElementById('ide-image-preview');
   const statusLang = document.getElementById('status-lang');
   const statusFile = document.getElementById('status-file');
 
   if (editor) {
-    editor.value       = '';
-    editor.disabled    = true;
-    editor.placeholder = 'No file open';
+    editor.style.display = '';
+    editor.disabled      = true;
+    editor.value         = '';
+    editor.placeholder   = 'No file open';
   }
+  if (imgPreview) imgPreview.classList.remove('visible');
   if (statusLang) statusLang.textContent = '\u2014';
   if (statusFile) statusFile.textContent  = '\u2014';
 }
@@ -770,40 +699,36 @@ let _previewTimer = null;
 
 function schedulePreview() {
   clearTimeout(_previewTimer);
-  _previewTimer = setTimeout(renderPreview, 650);
+  _previewTimer = setTimeout(renderPreview, 700);
 }
 
 function renderPreview() {
   const frame = document.getElementById('preview-frame');
   if (!frame) return;
 
-  const htmlFile = IDE.files.find(f => f.type === 'file' && f.lang === 'html');
-  const cssFiles = IDE.files.filter(f => f.type === 'file' && f.lang === 'css');
-  const jsFiles  = IDE.files.filter(f => f.type === 'file' && f.lang === 'js');
+  const htmlFile = FS.files.find(f => f.type === 'file' && f.lang === 'html');
+  const cssFiles = FS.files.filter(f => f.type === 'file' && f.lang === 'css');
+  const jsFiles  = FS.files.filter(f => f.type === 'file' && f.lang === 'js');
 
   if (!htmlFile) {
-    frame.srcdoc = '<body style="font:14px/1.6 sans-serif;padding:24px;color:#888">Add an HTML file to see a live preview.</body>';
+    frame.srcdoc = '<body style="font:14px/1.7 sans-serif;padding:24px;color:#888;background:#fff">Add an HTML file to see a live preview.</body>';
     return;
   }
 
   let doc = htmlFile.content || '';
 
   const allCss = cssFiles.map(f => f.content || '').filter(Boolean).join('\n\n');
-  const allJs  = jsFiles.map(f => f.content || '').filter(Boolean).join('\n\n');
+  const allJs  = jsFiles.map(f => f.content  || '').filter(Boolean).join('\n\n');
 
   if (allCss) {
-    const styleTag = `<style>\n${allCss}\n</style>`;
-    doc = doc.includes('</head>')
-      ? doc.replace('</head>', styleTag + '\n</head>')
-      : styleTag + '\n' + doc;
+    const tag = `<style>\n${allCss}\n</style>`;
+    doc = doc.includes('</head>') ? doc.replace('</head>', tag + '\n</head>') : tag + '\n' + doc;
   }
 
   if (allJs) {
-    const safeJs  = `try{\n${allJs}\n}catch(_e){console.error('Preview JS error:',_e);}`;
-    const scriptTag = `<script>${safeJs}<\/script>`;
-    doc = doc.includes('</body>')
-      ? doc.replace('</body>', scriptTag + '\n</body>')
-      : doc + '\n' + scriptTag;
+    const safe = `try{\n${allJs}\n}catch(_e){console.error('Preview error:',_e);}`;
+    const tag  = `<script>${safe}<\/script>`;
+    doc = doc.includes('</body>') ? doc.replace('</body>', tag + '\n</body>') : doc + '\n' + tag;
   }
 
   frame.srcdoc = doc;
@@ -814,53 +739,62 @@ function renderPreview() {
    ============================================================ */
 
 function initLab() {
+  // Check for lab-specific elements
   const editor = document.getElementById('ide-code-editor');
   if (!editor) return;
 
   initState();
   renderFileList();
-  renderEditorTabs();
+  renderTabBar();
 
-  if (IDE.activeFileId) {
-    openFileInEditor(IDE.activeFileId);
-  } else {
-    clearEditor();
-  }
+  if (FS.activeId) openFileInEditor(FS.activeId);
+  else             clearEditor();
 
-  // Editor → save + preview on input
+  /* Editor events */
   editor.addEventListener('input', () => {
-    flushEditorToState();
+    flushToState();
     schedulePreview();
   });
 
-  // Tab key → 2 spaces
   editor.addEventListener('keydown', e => {
     if (e.key === 'Tab') {
       e.preventDefault();
-      const s = editor.selectionStart;
+      const s   = editor.selectionStart;
       const end = editor.selectionEnd;
       editor.value = editor.value.substring(0, s) + '  ' + editor.value.substring(end);
       editor.selectionStart = editor.selectionEnd = s + 2;
-      flushEditorToState();
+      flushToState();
       schedulePreview();
     }
   });
 
-  // Toolbar: Add File
+  /* + File button */
   document.getElementById('btn-add-file')?.addEventListener('click', () => {
     const name = prompt('File name (e.g. about.html, utils.js, theme.css):');
     if (name && name.trim()) createFile(name, 'file');
   });
 
-  // Toolbar: Add Folder
+  /* + Dir (folder) button */
   document.getElementById('btn-add-folder')?.addEventListener('click', () => {
     const name = prompt('Folder name:');
     if (name && name.trim()) createFile(name, 'folder');
   });
 
-  // Refresh preview
+  /* Upload button → trigger hidden file input */
+  document.getElementById('btn-upload')?.addEventListener('click', () => {
+    document.getElementById('upload-input')?.click();
+  });
+
+  /* Hidden file input → process upload */
+  document.getElementById('upload-input')?.addEventListener('change', function () {
+    const files = Array.from(this.files || []);
+    files.forEach(f => uploadFile(f));
+    this.value = '';   // reset so same file can be re-uploaded
+  });
+
+  /* Refresh preview */
   document.getElementById('btn-refresh')?.addEventListener('click', () => {
-    flushEditorToState();
+    flushToState();
     renderPreview();
   });
 }
@@ -891,7 +825,7 @@ function registerSW() {
 }
 
 /* ============================================================
-   BOOTSTRAP
+   INIT
    ============================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
