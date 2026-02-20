@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="aquatic">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Veltrix IDE</title>
+  <meta name="description" content="Get in touch with the Veltrix IDE team. Send us a message and we'll respond as soon as possible." />
+  <meta name="author" content="Mohammad Khan" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://veltrixide.vercel.app/contact.html" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    (function() {
+      var t = localStorage.getItem('veltrix_theme') || 'aquatic';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Veltrix IDE — Home">
+      <img src="logo.png" alt="Veltrix Logo" class="logo" />
+      <span class="brand-name">Veltrix IDE</span>
+    </a>
+    <ul class="nav-links" role="menubar">
+      <li role="none"><a href="index.html"     role="menuitem">Home</a></li>
+      <li role="none"><a href="about.html"     role="menuitem">About</a></li>
+      <li role="none"><a href="tutorials.html" role="menuitem">Tutorials</a></li>
+      <li role="none"><a href="lab.html"       role="menuitem">Lab</a></li>
+      <li role="none"><a href="contact.html"   role="menuitem" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="theme-selector">
+        <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <span class="theme-label">Aquatic</span>
+        </button>
+        <div class="theme-dropdown" role="listbox" aria-label="Theme options"></div>
+      </div>
+      <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-ghost"  data-open-modal="modal-login">Sign In</button>
+        <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
+      </div>
+      <div id="user-group" style="display:none;align-items:center;gap:8px;">
+        <div class="user-pill">
+          <div class="user-avatar" id="nav-avatar">U</div>
+          <span class="user-name" id="nav-username">User</span>
+        </div>
+        <button class="btn-logout" id="logout-btn">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="page-header">
+    <div class="container-narrow">
+      <span class="page-tag">Get in touch</span>
+      <h1>Contact Us</h1>
+      <p class="page-sub">Have a question, suggestion, or just want to say hello? We'd love to hear from you. Fill in the form below and we'll get back to you as soon as possible.</p>
+    </div>
+  </div>
+
+  <section class="section" aria-label="Contact form">
+    <div class="container-narrow">
+      <div class="contact-layout">
+
+        <!-- Contact Form -->
+        <div class="contact-form-wrap">
+          <div id="contact-success" class="contact-success" role="alert" aria-live="polite" hidden>
+            <div class="success-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"/>
+              </svg>
+            </div>
+            <h3>Message sent!</h3>
+            <p>Thanks for reaching out. We typically respond within 1–2 business days.</p>
+            <button class="btn btn-outline" id="contact-reset-btn" style="margin-top:20px;">Send another message</button>
+          </div>
+
+          <form id="contact-form" class="contact-form" novalidate aria-label="Contact form">
+            <div class="form-field">
+              <label for="contact-name">Full Name <span class="field-required" aria-hidden="true">*</span></label>
+              <input
+                type="text"
+                id="contact-name"
+                name="name"
+                placeholder="Your full name"
+                autocomplete="name"
+                required
+                aria-required="true"
+                aria-describedby="name-error"
+              />
+              <span class="field-error" id="name-error" role="alert"></span>
+            </div>
+
+            <div class="form-field">
+              <label for="contact-email">Email Address <span class="field-required" aria-hidden="true">*</span></label>
+              <input
+                type="email"
+                id="contact-email"
+                name="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+                required
+                aria-required="true"
+                aria-describedby="email-error"
+              />
+              <span class="field-error" id="email-error" role="alert"></span>
+            </div>
+
+            <div class="form-field">
+              <label for="contact-subject">Subject</label>
+              <input
+                type="text"
+                id="contact-subject"
+                name="subject"
+                placeholder="What is this about?"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="contact-message">Message <span class="field-required" aria-hidden="true">*</span></label>
+              <textarea
+                id="contact-message"
+                name="message"
+                placeholder="Write your message here..."
+                rows="6"
+                required
+                aria-required="true"
+                aria-describedby="message-error"
+              ></textarea>
+              <span class="field-error" id="message-error" role="alert"></span>
+              <span class="char-count" id="char-count" aria-live="polite">0 / 1000</span>
+            </div>
+
+            <div class="form-field form-check">
+              <label class="check-label">
+                <input type="checkbox" id="contact-privacy" name="privacy" required aria-required="true" aria-describedby="privacy-error" />
+                <span>I have read and agree to the <a href="privacy.html" target="_blank">Privacy Policy</a>.</span>
+              </label>
+              <span class="field-error" id="privacy-error" role="alert"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary contact-submit" id="contact-submit-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              Send Message
+            </button>
+          </form>
+        </div>
+
+        <!-- Info sidebar -->
+        <aside class="contact-info" aria-label="Contact information">
+          <div class="info-card">
+            <div class="info-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <h3>Based Online</h3>
+            <p>Veltrix IDE is a fully remote, browser-based platform — no physical office.</p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h3>Response Time</h3>
+            <p>We aim to respond to all messages within 1–2 business days.</p>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              </svg>
+            </div>
+            <h3>What to Write</h3>
+            <p>Bug reports, feature requests, partnerships, or general feedback — all welcome.</p>
+          </div>
+
+          <div class="info-card info-card-muted">
+            <p class="info-small">Your message will be handled in accordance with our <a href="privacy.html">Privacy Policy</a>. We will never share your contact details with third parties.</p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="logo.png" alt="Veltrix IDE" />
+      <span>Veltrix IDE</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+    <p class="footer-copy">© 2026 Veltrix IDE · Built by Mohammad Khan</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="login-title">Welcome back</h2>
+      <p>Sign in to your Veltrix account</p>
+    </div>
+    <form id="form-login" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="username" placeholder="yourhandle" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <div class="form-error" id="err-login"></div>
+      <button type="submit" class="btn btn-primary form-submit">Sign In</button>
+    </form>
+    <p class="modal-footer">No account? <a data-open-modal="modal-signup">Create one free</a></p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <div class="modal-heading">
+      <h2 id="signup-title">Create account</h2>
+      <p>Join Veltrix IDE — it's completely free</p>
+    </div>
+    <form id="form-signup" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="signup-fullname">Full Name</label>
+        <input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" autocomplete="name" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-username">Username</label>
+        <input type="text" id="signup-username" name="username" placeholder="janedoe" autocomplete="username" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+      </div>
+      <div class="form-field">
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password" required />
+      </div>
+      <div class="form-error" id="err-signup"></div>
+      <button type="submit" class="btn btn-primary form-submit">Create Account</button>
+    </form>
+    <p class="modal-footer">Already have an account? <a data-open-modal="modal-login">Sign in</a></p>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  /* ── Contact Form — Frontend Validation & Submit ── */
+  (function () {
+    const form        = document.getElementById('contact-form');
+    const success     = document.getElementById('contact-success');
+    const resetBtn    = document.getElementById('contact-reset-btn');
+    const submitBtn   = document.getElementById('contact-submit-btn');
+    const messageArea = document.getElementById('contact-message');
+    const charCount   = document.getElementById('char-count');
+    const MAX_CHARS   = 1000;
+
+    if (!form) return;
+
+    /* Character counter */
+    if (messageArea && charCount) {
+      messageArea.addEventListener('input', () => {
+        const len = messageArea.value.length;
+        charCount.textContent = `${len} / ${MAX_CHARS}`;
+        if (len > MAX_CHARS) {
+          charCount.classList.add('over-limit');
+          messageArea.value = messageArea.value.slice(0, MAX_CHARS);
+          charCount.textContent = `${MAX_CHARS} / ${MAX_CHARS}`;
+        } else {
+          charCount.classList.remove('over-limit');
+        }
+      });
+    }
+
+    /* Field-level error display */
+    function showError(fieldId, msg) {
+      const el = document.getElementById(fieldId);
+      if (el) { el.textContent = msg; el.classList.add('visible'); }
+    }
+
+    function clearError(fieldId) {
+      const el = document.getElementById(fieldId);
+      if (el) { el.textContent = ''; el.classList.remove('visible'); }
+    }
+
+    function clearAllErrors() {
+      ['name-error', 'email-error', 'message-error', 'privacy-error'].forEach(clearError);
+      form.querySelectorAll('.form-field input, .form-field textarea').forEach(el => el.classList.remove('field-invalid'));
+    }
+
+    function markInvalid(inputId) {
+      const el = document.getElementById(inputId);
+      if (el) el.classList.add('field-invalid');
+    }
+
+    /* Email validation */
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    /* Validate and submit */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearAllErrors();
+
+      const name    = document.getElementById('contact-name').value.trim();
+      const email   = document.getElementById('contact-email').value.trim();
+      const message = document.getElementById('contact-message').value.trim();
+      const privacy = document.getElementById('contact-privacy').checked;
+
+      let valid = true;
+
+      if (!name) {
+        showError('name-error', 'Please enter your full name.');
+        markInvalid('contact-name');
+        valid = false;
+      } else if (name.length < 2) {
+        showError('name-error', 'Name must be at least 2 characters.');
+        markInvalid('contact-name');
+        valid = false;
+      }
+
+      if (!email) {
+        showError('email-error', 'Please enter your email address.');
+        markInvalid('contact-email');
+        valid = false;
+      } else if (!isValidEmail(email)) {
+        showError('email-error', 'Please enter a valid email address.');
+        markInvalid('contact-email');
+        valid = false;
+      }
+
+      if (!message) {
+        showError('message-error', 'Please enter a message.');
+        markInvalid('contact-message');
+        valid = false;
+      } else if (message.length < 10) {
+        showError('message-error', 'Message must be at least 10 characters.');
+        markInvalid('contact-message');
+        valid = false;
+      }
+
+      if (!privacy) {
+        showError('privacy-error', 'You must agree to the Privacy Policy to continue.');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      /* Simulate send */
+      submitBtn.disabled    = true;
+      submitBtn.textContent = 'Sending…';
+
+      setTimeout(() => {
+        form.style.display = 'none';
+        success.hidden     = false;
+        success.focus();
+      }, 900);
+    });
+
+    /* Reset form */
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        form.reset();
+        if (charCount) charCount.textContent = '0 / 1000';
+        clearAllErrors();
+        submitBtn.disabled    = false;
+        submitBtn.innerHTML   = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message`;
+        form.style.display    = '';
+        success.hidden        = true;
+      });
+    }
+
+    /* Inline validation on blur */
+    document.getElementById('contact-name')?.addEventListener('blur', function () {
+      if (this.value.trim().length > 0 && this.value.trim().length < 2) {
+        showError('name-error', 'Name must be at least 2 characters.');
+        markInvalid('contact-name');
+      } else if (this.value.trim().length >= 2) {
+        clearError('name-error');
+        this.classList.remove('field-invalid');
+      }
+    });
+
+    document.getElementById('contact-email')?.addEventListener('blur', function () {
+      if (this.value.trim() && !isValidEmail(this.value.trim())) {
+        showError('email-error', 'Please enter a valid email address.');
+        markInvalid('contact-email');
+      } else if (isValidEmail(this.value.trim())) {
+        clearError('email-error');
+        this.classList.remove('field-invalid');
+      }
+    });
+  })();
+</script>
+</body>
+</html>
