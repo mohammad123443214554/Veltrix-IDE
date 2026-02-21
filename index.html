@@ -3,34 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Primary SEO -->
   <title>Veltrix IDE — The Next Generation Cloud IDE</title>
   <meta name="description" content="Veltrix IDE is a high-performance cloud development platform. Code anywhere, build everywhere. Free HTML, CSS, and JS editor with live preview." />
   <meta name="keywords" content="cloud IDE, online code editor, web development, HTML CSS JS editor, Veltrix IDE" />
   <meta name="author" content="Mohammad Khan" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://veltrixide.vercel.app/" />
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Veltrix IDE — The Next Generation Cloud IDE" />
   <meta property="og:description" content="Code anywhere. Build everywhere. A professional cloud IDE in your browser." />
   <meta property="og:url" content="https://veltrixide.vercel.app/" />
   <meta property="og:site_name" content="Veltrix IDE" />
   <meta property="og:image" content="https://veltrixide.vercel.app/logo.png" />
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Veltrix IDE — The Next Generation Cloud IDE" />
   <meta name="twitter:description" content="Code anywhere. Build everywhere." />
   <meta name="twitter:image" content="https://veltrixide.vercel.app/logo.png" />
+
+  <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0a0a0a" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Veltrix IDE" />
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+
   <!--
     GOOGLE ADSENSE — HOW TO ENABLE
     Step 1: Replace YOUR_PUBLISHER_ID with your ca-pub-XXXXXXXXXXXXXXXX
     Step 2: Uncomment the script tag below
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_PUBLISHER_ID" crossorigin="anonymous"></script>
   -->
+
+  <!-- Apply theme immediately to avoid flash -->
   <script>
     (function() {
       var t = localStorage.getItem('veltrix_theme') || 'aquatic';
@@ -40,12 +53,17 @@
 </head>
 <body>
 
+<!-- ════════════════════════════════════════════
+     NAVBAR
+     ════════════════════════════════════════════ -->
 <nav class="navbar" role="navigation" aria-label="Main navigation">
   <div class="nav-inner">
+
     <a href="index.html" class="nav-logo" aria-label="Veltrix IDE — Home">
       <img src="logo.png" alt="Veltrix Logo" class="logo" />
       <span class="brand-name">Veltrix IDE</span>
     </a>
+
     <ul class="nav-links" role="menubar">
       <li role="none"><a href="index.html"     role="menuitem">Home</a></li>
       <li role="none"><a href="about.html"     role="menuitem">About</a></li>
@@ -53,24 +71,32 @@
       <li role="none"><a href="lab.html"       role="menuitem">Lab</a></li>
       <li role="none"><a href="contact.html"   role="menuitem">Contact</a></li>
     </ul>
+
     <div class="nav-right">
+
       <div class="theme-selector">
         <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            <line x1="12" y1="1"  x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22"  y1="4.22"  x2="5.64"  y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1"  y1="12" x2="3"  y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+            <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
           </svg>
           <span class="theme-label">Aquatic</span>
         </button>
         <div class="theme-dropdown" role="listbox" aria-label="Theme options"></div>
       </div>
+
       <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
         <button class="btn-ghost"  data-open-modal="modal-login">Sign In</button>
         <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
       </div>
+
       <div id="user-group" style="display:none;align-items:center;gap:8px;">
         <div class="user-pill">
           <div class="user-avatar" id="nav-avatar">U</div>
@@ -78,10 +104,14 @@
         </div>
         <button class="btn-logout" id="logout-btn">Logout</button>
       </div>
+
     </div>
   </div>
 </nav>
 
+<!-- ════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════ -->
 <main>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero-inner">
@@ -98,83 +128,123 @@
     </div>
   </section>
 
+  <!-- AdSense Top Slot -->
   <div class="container">
-    <div class="ad-slot" aria-label="Advertisement">AdSense — Top Banner Slot</div>
+    <!--
+      <ins class="adsbygoogle" style="display:block"
+           data-ad-client="ca-pub-YOUR_PUBLISHER_ID"
+           data-ad-slot="YOUR_AD_SLOT_ID"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    -->
+    <div class="ad-slot" aria-label="Advertisement placeholder">AdSense — Top Banner Slot</div>
   </div>
 
+  <!-- Features -->
   <section class="section" aria-labelledby="features-title">
     <div class="container">
       <div class="features-grid">
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">⌘</div>
           <h3>Multi-Language Editor</h3>
           <p>Write HTML, CSS, and JavaScript with a clean multi-tab editing experience.</p>
         </div>
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">⚡</div>
           <h3>Instant Live Preview</h3>
           <p>See your output rendered in real-time as you type. No build steps needed.</p>
         </div>
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">☁</div>
           <h3>Auto-Save to Cloud</h3>
           <p>Your code is saved automatically. Pick up right where you left off.</p>
         </div>
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">⬡</div>
           <h3>File Explorer</h3>
           <p>Manage your project with a sidebar file tree. Add files and folders instantly.</p>
         </div>
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">◑</div>
           <h3>4 Professional Themes</h3>
           <p>Switch between Aquatic, Desert, Dusk, and Night Sky — all grayscale precision.</p>
         </div>
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">⊞</div>
           <h3>PWA Support</h3>
           <p>Install Veltrix IDE on your device and work even when you're offline.</p>
         </div>
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">◎</div>
           <h3>30 Video Tutorials</h3>
           <p>Learn web development from beginner to advanced with structured video lessons.</p>
         </div>
+
         <div class="feature-item">
           <div class="feature-icon" aria-hidden="true">⊙</div>
           <h3>Zero Setup</h3>
           <p>No downloads. No configuration. Open your browser and start coding immediately.</p>
         </div>
+
       </div>
     </div>
   </section>
 
+  <!-- Stats -->
   <div class="divider"></div>
   <section class="section-sm" aria-label="Platform statistics">
     <div class="container">
       <div class="stats-row">
-        <div class="stat-item"><div class="stat-num">30+</div><div class="stat-label">Video Tutorials</div></div>
-        <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Languages</div></div>
-        <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Pro Themes</div></div>
-        <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Browser-Based</div></div>
-        <div class="stat-item"><div class="stat-num">Free</div><div class="stat-label">Core Access</div></div>
+        <div class="stat-item">
+          <div class="stat-num">30+</div>
+          <div class="stat-label">Video Tutorials</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Languages</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Pro Themes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Browser-Based</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">Free</div>
+          <div class="stat-label">Core Access</div>
+        </div>
       </div>
     </div>
   </section>
   <div class="divider"></div>
 
+  <!-- AdSense Bottom Slot -->
   <div class="container">
-    <div class="ad-slot" aria-label="Advertisement">AdSense — Bottom Banner Slot</div>
+    <div class="ad-slot" aria-label="Advertisement placeholder">AdSense — Bottom Banner Slot</div>
   </div>
+
 </main>
 
+<!-- ════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════ -->
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
     <div class="footer-brand">
       <img src="logo.png" alt="Veltrix IDE" />
       <span>Veltrix IDE</span>
     </div>
-    <nav class="footer-links" aria-label="Footer navigation">
+    <nav class="footer-links" aria-label="Footer links">
       <a href="privacy.html">Privacy Policy</a>
       <a href="contact.html">Contact</a>
     </nav>
@@ -182,9 +252,12 @@
   </div>
 </footer>
 
+<!-- ════════════════════════════════════════════
+     LOGIN MODAL
+     ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
   <div class="modal-box">
-    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <button class="modal-close-btn" aria-label="Close login modal">&times;</button>
     <div class="modal-heading">
       <h2 id="login-title">Welcome back</h2>
       <p>Sign in to your Veltrix account</p>
@@ -205,9 +278,12 @@
   </div>
 </div>
 
+<!-- ════════════════════════════════════════════
+     SIGNUP MODAL
+     ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
   <div class="modal-box">
-    <button class="modal-close-btn" aria-label="Close">&times;</button>
+    <button class="modal-close-btn" aria-label="Close signup modal">&times;</button>
     <div class="modal-heading">
       <h2 id="signup-title">Create account</h2>
       <p>Join Veltrix IDE — it's completely free</p>
