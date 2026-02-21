@@ -11,6 +11,8 @@
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0a0a0a" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Apply theme immediately to avoid flash -->
   <script>
     (function() {
       var t = localStorage.getItem('veltrix_theme') || 'aquatic';
@@ -20,37 +22,48 @@
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar" role="navigation" aria-label="Main navigation">
   <div class="nav-inner">
+
     <a href="index.html" class="nav-logo" aria-label="Veltrix IDE — Home">
       <img src="logo.png" alt="Veltrix Logo" class="logo" />
       <span class="brand-name">Veltrix IDE</span>
     </a>
+
     <ul class="nav-links" role="menubar">
       <li role="none"><a href="index.html"     role="menuitem">Home</a></li>
       <li role="none"><a href="about.html"     role="menuitem">About</a></li>
       <li role="none"><a href="tutorials.html" role="menuitem">Tutorials</a></li>
       <li role="none"><a href="lab.html"       role="menuitem">Lab</a></li>
-      <li role="none"><a href="contact.html"   role="menuitem" class="active">Contact</a></li>
+      <li role="none"><a href="contact.html"   role="menuitem">Contact</a></li>
     </ul>
+
     <div class="nav-right">
+
       <div class="theme-selector">
         <button class="theme-toggle-btn" aria-haspopup="listbox" aria-label="Select theme">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            <line x1="12" y1="1"  x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22"  y1="4.22"  x2="5.64"  y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1"  y1="12" x2="3"  y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+            <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
           </svg>
           <span class="theme-label">Aquatic</span>
         </button>
         <div class="theme-dropdown" role="listbox" aria-label="Theme options"></div>
       </div>
+
       <div id="auth-group" style="display:flex;align-items:center;gap:8px;">
         <button class="btn-ghost"  data-open-modal="modal-login">Sign In</button>
         <button class="btn-filled" data-open-modal="modal-signup">Get Started</button>
       </div>
+
       <div id="user-group" style="display:none;align-items:center;gap:8px;">
         <div class="user-pill">
           <div class="user-avatar" id="nav-avatar">U</div>
@@ -58,11 +71,14 @@
         </div>
         <button class="btn-logout" id="logout-btn">Logout</button>
       </div>
+
     </div>
   </div>
 </nav>
 
+<!-- CONTENT -->
 <main>
+
   <div class="page-header">
     <div class="container-narrow">
       <span class="page-tag">Get in touch</span>
@@ -77,6 +93,8 @@
 
         <!-- Contact Form -->
         <div class="contact-form-wrap">
+
+          <!-- Success Message (hidden by default) -->
           <div id="contact-success" class="contact-success" role="alert" aria-live="polite" hidden>
             <div class="success-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -88,7 +106,9 @@
             <button class="btn btn-outline" id="contact-reset-btn" style="margin-top:20px;">Send another message</button>
           </div>
 
+          <!-- Contact Form -->
           <form id="contact-form" class="contact-form" novalidate aria-label="Contact form">
+
             <div class="form-field">
               <label for="contact-name">Full Name <span class="field-required" aria-hidden="true">*</span></label>
               <input
@@ -154,17 +174,19 @@
             </div>
 
             <button type="submit" class="btn btn-primary contact-submit" id="contact-submit-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="22" y1="2" x2="11" y2="13"/>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"/>
               </svg>
               Send Message
             </button>
+
           </form>
         </div>
 
         <!-- Info sidebar -->
         <aside class="contact-info" aria-label="Contact information">
+
           <div class="info-card">
             <div class="info-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -200,27 +222,31 @@
           <div class="info-card info-card-muted">
             <p class="info-small">Your message will be handled in accordance with our <a href="privacy.html">Privacy Policy</a>. We will never share your contact details with third parties.</p>
           </div>
+
         </aside>
 
       </div>
     </div>
   </section>
+
 </main>
 
+<!-- FOOTER -->
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
     <div class="footer-brand">
       <img src="logo.png" alt="Veltrix IDE" />
       <span>Veltrix IDE</span>
     </div>
-    <nav class="footer-links" aria-label="Footer navigation">
+    <nav class="footer-links" aria-label="Footer links">
       <a href="privacy.html">Privacy Policy</a>
-      <a href="contact.html" aria-current="page">Contact</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <p class="footer-copy">© 2026 Veltrix IDE · Built by Mohammad Khan</p>
   </div>
 </footer>
 
+<!-- LOGIN MODAL -->
 <div class="modal-overlay" id="modal-login" role="dialog" aria-modal="true" aria-labelledby="login-title">
   <div class="modal-box">
     <button class="modal-close-btn" aria-label="Close">&times;</button>
@@ -231,11 +257,11 @@
     <form id="form-login" novalidate autocomplete="off">
       <div class="form-field">
         <label for="login-username">Username</label>
-        <input type="text" id="login-username" name="username" placeholder="yourhandle" autocomplete="username" required />
+        <input type="text"     id="login-username" name="username" placeholder="yourhandle" autocomplete="username"         required />
       </div>
       <div class="form-field">
         <label for="login-password">Password</label>
-        <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+        <input type="password" id="login-password" name="password" placeholder="••••••••"   autocomplete="current-password" required />
       </div>
       <div class="form-error" id="err-login"></div>
       <button type="submit" class="btn btn-primary form-submit">Sign In</button>
@@ -244,6 +270,7 @@
   </div>
 </div>
 
+<!-- SIGNUP MODAL -->
 <div class="modal-overlay" id="modal-signup" role="dialog" aria-modal="true" aria-labelledby="signup-title">
   <div class="modal-box">
     <button class="modal-close-btn" aria-label="Close">&times;</button>
@@ -254,19 +281,19 @@
     <form id="form-signup" novalidate autocomplete="off">
       <div class="form-field">
         <label for="signup-fullname">Full Name</label>
-        <input type="text" id="signup-fullname" name="fullname" placeholder="Jane Doe" autocomplete="name" required />
+        <input type="text"     id="signup-fullname" name="fullname" placeholder="Jane Doe"              autocomplete="name"         required />
       </div>
       <div class="form-field">
         <label for="signup-username">Username</label>
-        <input type="text" id="signup-username" name="username" placeholder="janedoe" autocomplete="username" required />
+        <input type="text"     id="signup-username" name="username" placeholder="janedoe"               autocomplete="username"     required />
       </div>
       <div class="form-field">
         <label for="signup-email">Email</label>
-        <input type="email" id="signup-email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+        <input type="email"    id="signup-email"    name="email"    placeholder="jane@example.com"      autocomplete="email"        required />
       </div>
       <div class="form-field">
         <label for="signup-password">Password</label>
-        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" autocomplete="new-password" required />
+        <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters"  autocomplete="new-password" required />
       </div>
       <div class="form-error" id="err-signup"></div>
       <button type="submit" class="btn btn-primary form-submit">Create Account</button>
@@ -276,154 +303,171 @@
 </div>
 
 <script src="script.js"></script>
+
+<!-- Contact Form Logic — runs after script.js and full DOM are ready -->
 <script>
-  /* ── Contact Form — Frontend Validation & Submit ── */
-  (function () {
-    const form        = document.getElementById('contact-form');
-    const success     = document.getElementById('contact-success');
-    const resetBtn    = document.getElementById('contact-reset-btn');
-    const submitBtn   = document.getElementById('contact-submit-btn');
-    const messageArea = document.getElementById('contact-message');
-    const charCount   = document.getElementById('char-count');
-    const MAX_CHARS   = 1000;
+document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
 
-    if (!form) return;
+  var form        = document.getElementById('contact-form');
+  var success     = document.getElementById('contact-success');
+  var resetBtn    = document.getElementById('contact-reset-btn');
+  var submitBtn   = document.getElementById('contact-submit-btn');
+  var messageArea = document.getElementById('contact-message');
+  var charCount   = document.getElementById('char-count');
+  var MAX_CHARS   = 1000;
 
-    /* Character counter */
-    if (messageArea && charCount) {
-      messageArea.addEventListener('input', () => {
-        const len = messageArea.value.length;
-        charCount.textContent = `${len} / ${MAX_CHARS}`;
-        if (len > MAX_CHARS) {
-          charCount.classList.add('over-limit');
-          messageArea.value = messageArea.value.slice(0, MAX_CHARS);
-          charCount.textContent = `${MAX_CHARS} / ${MAX_CHARS}`;
-        } else {
-          charCount.classList.remove('over-limit');
-        }
-      });
-    }
+  if (!form) return; // guard — only runs on contact.html
 
-    /* Field-level error display */
-    function showError(fieldId, msg) {
-      const el = document.getElementById(fieldId);
-      if (el) { el.textContent = msg; el.classList.add('visible'); }
-    }
-
-    function clearError(fieldId) {
-      const el = document.getElementById(fieldId);
-      if (el) { el.textContent = ''; el.classList.remove('visible'); }
-    }
-
-    function clearAllErrors() {
-      ['name-error', 'email-error', 'message-error', 'privacy-error'].forEach(clearError);
-      form.querySelectorAll('.form-field input, .form-field textarea').forEach(el => el.classList.remove('field-invalid'));
-    }
-
-    function markInvalid(inputId) {
-      const el = document.getElementById(inputId);
-      if (el) el.classList.add('field-invalid');
-    }
-
-    /* Email validation */
-    function isValidEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    /* Validate and submit */
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      clearAllErrors();
-
-      const name    = document.getElementById('contact-name').value.trim();
-      const email   = document.getElementById('contact-email').value.trim();
-      const message = document.getElementById('contact-message').value.trim();
-      const privacy = document.getElementById('contact-privacy').checked;
-
-      let valid = true;
-
-      if (!name) {
-        showError('name-error', 'Please enter your full name.');
-        markInvalid('contact-name');
-        valid = false;
-      } else if (name.length < 2) {
-        showError('name-error', 'Name must be at least 2 characters.');
-        markInvalid('contact-name');
-        valid = false;
+  /* ── Character counter ── */
+  if (messageArea && charCount) {
+    messageArea.addEventListener('input', function () {
+      var len = messageArea.value.length;
+      if (len > MAX_CHARS) {
+        messageArea.value = messageArea.value.slice(0, MAX_CHARS);
+        len = MAX_CHARS;
       }
-
-      if (!email) {
-        showError('email-error', 'Please enter your email address.');
-        markInvalid('contact-email');
-        valid = false;
-      } else if (!isValidEmail(email)) {
-        showError('email-error', 'Please enter a valid email address.');
-        markInvalid('contact-email');
-        valid = false;
-      }
-
-      if (!message) {
-        showError('message-error', 'Please enter a message.');
-        markInvalid('contact-message');
-        valid = false;
-      } else if (message.length < 10) {
-        showError('message-error', 'Message must be at least 10 characters.');
-        markInvalid('contact-message');
-        valid = false;
-      }
-
-      if (!privacy) {
-        showError('privacy-error', 'You must agree to the Privacy Policy to continue.');
-        valid = false;
-      }
-
-      if (!valid) return;
-
-      /* Simulate send */
-      submitBtn.disabled    = true;
-      submitBtn.textContent = 'Sending…';
-
-      setTimeout(() => {
-        form.style.display = 'none';
-        success.hidden     = false;
-        success.focus();
-      }, 900);
+      charCount.textContent = len + ' / ' + MAX_CHARS;
+      charCount.classList.toggle('over-limit', len >= MAX_CHARS);
     });
+  }
 
-    /* Reset form */
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        form.reset();
-        if (charCount) charCount.textContent = '0 / 1000';
-        clearAllErrors();
-        submitBtn.disabled    = false;
-        submitBtn.innerHTML   = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message`;
-        form.style.display    = '';
-        success.hidden        = true;
-      });
+  /* ── Error helpers ── */
+  function showError(fieldId, msg) {
+    var el = document.getElementById(fieldId);
+    if (el) { el.textContent = msg; el.classList.add('visible'); }
+  }
+
+  function clearError(fieldId) {
+    var el = document.getElementById(fieldId);
+    if (el) { el.textContent = ''; el.classList.remove('visible'); }
+  }
+
+  function clearAllErrors() {
+    ['name-error', 'email-error', 'message-error', 'privacy-error'].forEach(clearError);
+    form.querySelectorAll('.field-invalid').forEach(function (el) {
+      el.classList.remove('field-invalid');
+    });
+  }
+
+  function markInvalid(inputId) {
+    var el = document.getElementById(inputId);
+    if (el) el.classList.add('field-invalid');
+  }
+
+  /* ── Email validation ── */
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  /* ── Submit handler ── */
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearAllErrors();
+
+    var name    = (document.getElementById('contact-name')    || {}).value || '';
+    var email   = (document.getElementById('contact-email')   || {}).value || '';
+    var message = (document.getElementById('contact-message') || {}).value || '';
+    var privacy = (document.getElementById('contact-privacy') || {}).checked;
+
+    name    = name.trim();
+    email   = email.trim();
+    message = message.trim();
+
+    var valid = true;
+
+    if (!name) {
+      showError('name-error', 'Please enter your full name.');
+      markInvalid('contact-name');
+      valid = false;
+    } else if (name.length < 2) {
+      showError('name-error', 'Name must be at least 2 characters.');
+      markInvalid('contact-name');
+      valid = false;
     }
 
-    /* Inline validation on blur */
-    document.getElementById('contact-name')?.addEventListener('blur', function () {
-      if (this.value.trim().length > 0 && this.value.trim().length < 2) {
+    if (!email) {
+      showError('email-error', 'Please enter your email address.');
+      markInvalid('contact-email');
+      valid = false;
+    } else if (!isValidEmail(email)) {
+      showError('email-error', 'Please enter a valid email address.');
+      markInvalid('contact-email');
+      valid = false;
+    }
+
+    if (!message) {
+      showError('message-error', 'Please enter a message.');
+      markInvalid('contact-message');
+      valid = false;
+    } else if (message.length < 10) {
+      showError('message-error', 'Message must be at least 10 characters.');
+      markInvalid('contact-message');
+      valid = false;
+    }
+
+    if (!privacy) {
+      showError('privacy-error', 'You must agree to the Privacy Policy to continue.');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    /* Simulate async send */
+    submitBtn.disabled    = true;
+    submitBtn.textContent = 'Sending…';
+
+    setTimeout(function () {
+      form.style.display = 'none';
+      success.hidden     = false;
+      success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 900);
+  });
+
+  /* ── Reset handler ── */
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      form.reset();
+      if (charCount) { charCount.textContent = '0 / ' + MAX_CHARS; charCount.classList.remove('over-limit'); }
+      clearAllErrors();
+      submitBtn.disabled    = false;
+      submitBtn.textContent = 'Send Message';
+      form.style.display    = '';
+      success.hidden        = true;
+    });
+  }
+
+  /* ── Inline blur validation ── */
+  var nameInput = document.getElementById('contact-name');
+  if (nameInput) {
+    nameInput.addEventListener('blur', function () {
+      var v = this.value.trim();
+      if (v.length > 0 && v.length < 2) {
         showError('name-error', 'Name must be at least 2 characters.');
         markInvalid('contact-name');
-      } else if (this.value.trim().length >= 2) {
+      } else if (v.length >= 2) {
         clearError('name-error');
         this.classList.remove('field-invalid');
       }
     });
+  }
 
-    document.getElementById('contact-email')?.addEventListener('blur', function () {
-      if (this.value.trim() && !isValidEmail(this.value.trim())) {
+  var emailInput = document.getElementById('contact-email');
+  if (emailInput) {
+    emailInput.addEventListener('blur', function () {
+      var v = this.value.trim();
+      if (v && !isValidEmail(v)) {
         showError('email-error', 'Please enter a valid email address.');
         markInvalid('contact-email');
-      } else if (isValidEmail(this.value.trim())) {
+      } else if (v && isValidEmail(v)) {
         clearError('email-error');
         this.classList.remove('field-invalid');
       }
     });
-  })();
+  }
+
+});
 </script>
+
 </body>
 </html>
